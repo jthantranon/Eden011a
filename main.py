@@ -37,6 +37,7 @@ class MainPage(webapp2.RequestHandler):
     	# avatarsheet = jinja_environment.get_template('avatarsheet.html')
 
         self.response.out.write(header.render(template_values))
+        self.response.out.write(splash.render(template_values))
         self.response.out.write(chat.render(template_values))
         #self.response.out.write(glass.render(template_values))
         #self.response.out.write(console.render(template_values))
