@@ -1,0 +1,54 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// from JavaScript Patterns, Stoyan Stefanov</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// via Addy Osmoni</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// http://addyosmani.com/blog/essential-js-namespacing/</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">///////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="COMM">// top-level namespace being assigned an object literal</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">MEUI</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">MEUI</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">REVISION</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'1'</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="COMM">// a convenience function for parsing string namespaces and</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="COMM">// automatically generating nested namespaces</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="COMM">// function extend( ns, ns_string ) {</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="COMM">// var parts = ns_string.split('.'),</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">        </span><span class="COMM">// parent = ns,</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">        </span><span class="COMM">// pl, i;</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">    </span><span class="COMM">// if (parts[0] == "myApp") {</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">        </span><span class="COMM">// parts = parts.slice(1);</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="COMM">// }</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="COMM">// pl = parts.length;</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="COMM">// for (i = 0; i &lt; pl; i++) {</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">        </span><span class="COMM">// //create a property if it doesnt exist</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">        </span><span class="COMM">// if (typeof parent[parts[i]] == 'undefined') {</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">            </span><span class="COMM">// parent[parts[i]] = {};</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">        </span><span class="COMM">// }</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">        </span><span class="COMM">// parent = parent[parts[i]];</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="COMM">// }</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="COMM">// return parent;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="COMM">// }</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> 
+<span class='line'> 30</span> 
+<span class='line'> 31</span> </span><span class="COMM">/******************
+<span class='line'> 32</span> // sample usage:
+<span class='line'> 33</span> // extend myApp with a deeply nested namespace
+<span class='line'> 34</span> var mod = extend(myApp, 'myApp.modules.module2');
+<span class='line'> 35</span> // the correct object with nested depths is output
+<span class='line'> 36</span> console.log(mod);
+<span class='line'> 37</span> // minor test to check the instance of mod can also
+<span class='line'> 38</span> // be used outside of the myApp namesapce as a clone
+<span class='line'> 39</span> // that includes the extensions
+<span class='line'> 40</span> console.log(mod == myApp.modules.module2); //true
+<span class='line'> 41</span> // further demonstration of easier nested namespace
+<span class='line'> 42</span> // assignment using extend
+<span class='line'> 43</span> extend(myApp, 'moduleA.moduleB.moduleC.moduleD');
+<span class='line'> 44</span> extend(myApp, 'longer.version.looks.like.this');
+<span class='line'> 45</span> console.log(myApp);
+<span class='line'> 46</span> ********************/</span><span class="WHIT">
+<span class='line'> 47</span> </span></pre></body></html>
