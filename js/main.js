@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	
+	$('#splash').hide();
 	/* 
 	 * start world which includes: default scenes for city,
 	 * zone(interior), and map, renderer, and physics;
@@ -20,8 +21,13 @@ $(document).ready(function(){
 	function main() {
 			
 	var MEAPP = new ME3D.World();
+	//var MEHUD = new ME3D.Hud(); // does nothing
 	
-	MEAPP.preload();
+	//MEAPP.preload();
+	
+	// INITIALIZE HUD!!! //
+	///////////////////////
+	var CHATBOX = new MEUI.ChatBox();
 		
 		
 	// LOCAL REFERENCES //
@@ -77,22 +83,27 @@ $(document).ready(function(){
 	
 	// INITIALIZE TEST PHYSICS CUBE //
 	//////////////////////////////////
-	var cubeMap = THREE.ImageUtils.loadTexture("textures/boxStripe.gif");	
-	var testCube = new THREE.Mesh(
-		new THREE.CubeGeometry(1,1,1),
-		new THREE.MeshPhongMaterial({
-			map: cubeMap, emissive:0x007777,
-			opacity: .75, transparent:true,
-			side:THREE.DoubleSide}));
+//	var cubeMap = THREE.ImageUtils.loadTexture("textures/boxStripe.gif");	
+//	var testCube = new THREE.Mesh(
+//		new THREE.CubeGeometry(1,1,1),
+//		new THREE.MeshPhongMaterial({
+//			map: cubeMap, emissive:0x007777,
+//			opacity: .75, transparent:true,
+//			side:THREE.DoubleSide}));
+//	
+//	testCube.useQuaternion = true;
+//	var quaternion = new THREE.Quaternion();
+//	quaternion.setFromAxisAngle( new THREE.Vector3( 1, 0, 0 ), ME3D.de2ra(-45) );
+//    testCube.quaternion.copy(quaternion);
+//   	testCube.position.y = 4;
+//   	
+//	var cubeBounds = BOUNDS.getBoundsMax(testCube);	
+//	PHYSICS.addMassBody(testCube,cubeBounds,.1);
 	
+	var testCube = new ME3D.TestCube();
 	testCube.useQuaternion = true;
-	var quaternion = new THREE.Quaternion();
-	quaternion.setFromAxisAngle( new THREE.Vector3( 1, 0, 0 ), ME3D.de2ra(-45) );
-    testCube.quaternion.copy(quaternion);
-   	testCube.position.y = 4;
-   	
-	var cubeBounds = BOUNDS.getBoundsMax(testCube);	
-	PHYSICS.addMassBody(testCube,cubeBounds,.1);
+	var cubeBounds = BOUNDS.getBoundsMax(testCube.getMesh());	
+	//PHYSICS.addMassBody(testCube,cubeBounds,.1);
 	
 	CITY.scene.add(testCube);
 	

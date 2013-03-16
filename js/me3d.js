@@ -57,6 +57,15 @@ ME3D.extend = function (base,sub) {
     sub.prototype.constructor = sub;
 }
 
+/*
+ * ME3D.merge
+ * used to merge object properties
+ * useful for setting default options
+ */
+ME3D.merge = function(object1, object2) {
+	$.extend(object1, object2);	
+}
+
 
 /*
  * ME3D.log
@@ -102,6 +111,45 @@ ME3D.Ticker = {
 		for(var i=0,j=ME3D.Ticker.list.length;i<j;i++) {
 			ME3D.Ticker.list[i].tick(delta);
 		}
+	},
+	
+	triggerClick: function(entity) {
+		console.log(this.list);
+		console.log(entity);
+		for(var i=0,j=ME3D.Ticker.list.length;i<j;i++) {
+			if(ME3D.Ticker.list[i] == entity) {
+				ME3D.Ticker.list[i].click();				
+			}			
+		}
+	},
+	
+	triggerMouseIn: function(entity) {
+		console.log(this.list);
+		console.log(entity);
+		for(var i=0,j=ME3D.Ticker.list.length;i<j;i++) {
+			if(ME3D.Ticker.list[i] == entity) {
+				ME3D.Ticker.list[i].mouseIn();				
+			}			
+		}
+	},
+	
+	triggerMouseOut: function(entity) {
+		console.log(this.list);
+		console.log(entity);
+		for(var i=0,j=ME3D.Ticker.list.length;i<j;i++) {
+			if(ME3D.Ticker.list[i] == entity) {
+				ME3D.Ticker.list[i].mouseOut();				
+			}			
+		}
+	},
+	
+	getPickList: function() {
+		var pickList = new THREE.Object3D();
+		
+		for(var i=0,j=ME3D.Ticker.list.length;i<j;i++) {
+			pickList.add(ME3D.Ticker.list[i]);
+		}
+		return pickList;
 	}
 }
 

@@ -1,0 +1,5 @@
+the control observer has an array called __clickables[]
+
+objects built from THREE.Mesh....
+
+meshes are added to the __clickables array when initialized or on demand

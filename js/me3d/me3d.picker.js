@@ -49,12 +49,11 @@ ME3D.Picker = function (scene, camera) {
 	
 		var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
 	
-		var scenegroups = scene.getChildByName('grid');
+		var scenegroups = ME3D.Ticker.getPickList();//scene.getDescendants();//.getChildByName('grid');
 		
-		var intersects = raycaster.intersectObjects( scenegroups.children );
+		var intersects = raycaster.intersectObjects( scenegroups.getDescendants() );
 		
 		if ( intersects.length > 0 ) {
-			
 			
 			// if its not the same, clear the old one and update the new one		
 			if ( INTERSECTED != intersects[ 0 ].object ) {
@@ -62,13 +61,22 @@ ME3D.Picker = function (scene, camera) {
 		
 				INTERSECTED = intersects[ 0 ].object;
 				INTERSECTED.material.opacity = .75;
-				if(isClicked) console.debug(INTERSECTED.data.coords);
+				if(isClicked) { 
+					//console.debug(INTERSECTED.data.coords);
+					ME3D.Ticker.triggerClick(INTERSECTED.parent);
+				}
 				isClicked=false;
 			// its the same or a new item
 			} else { 
 				INTERSECTED = intersects[ 0 ].object;
 				INTERSECTED.material.opacity = .75;
-				if(isClicked) console.debug(INTERSECTED.data.coords);
+				
+				ME3D.Ticker.triggerHover(INTERSECTED.parent);
+				
+				if(isClicked) { 
+					//console.debug(INTERSECTED.data.coords);
+					ME3D.Ticker.triggerClick(INTERSECTED.parent);
+				}
 				isClicked=false;
 			}
 		// nothing selected so set the currently lit one to normal
