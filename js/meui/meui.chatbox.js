@@ -15,7 +15,7 @@ MEUI.ChatBox = function (props) {
 	
 	// default paramaters //
 	////////////////////////
-	self = this;
+	var self = this;
 	
 	this.options = {
 		
@@ -25,6 +25,7 @@ MEUI.ChatBox = function (props) {
 	
 	// object properties //
 	///////////////////////
+	this.avatarID = '';
 	this.chatlog = [];
 	this.shiftdown = false;
 	this.logIndex = 0;
@@ -33,7 +34,7 @@ MEUI.ChatBox = function (props) {
 	/////////////////////
 	function initialize() {
 		$('.chatWrapper').fadeTo(3000, 1);
-		MEUI.Channel.register('chat');
+		MEUI.Channel.register(self,'chat');
 	} 
 	
 	
@@ -121,7 +122,7 @@ MEUI.ChatBox = function (props) {
 						var params = rawParams.split(',');
 						UniCon(mkType,params);
 					} else {
-						Broadcast("command",content);
+						//Broadcast("command",content);
 					}
 					
 					
@@ -130,9 +131,11 @@ MEUI.ChatBox = function (props) {
 						self.loopback($(this).val());
 					}
 					if ($('.chatChannel').val() == "Global") {
-						self.loopback($(this).val());
+						if(self.avatarID != '') self.broadcast($(this).val());
+						else self.loopback('Not yet connected.. Please try again.');
 					}
 					if ($('.chatChannel').val() == "Local") {
+						if(self.avatarID != '')
 						self.loopback($(this).val());
 					}
 				}
@@ -264,15 +267,29 @@ MEUI.ChatBox.prototype = {
 		// todo
 	},
 	
-	broadcast: function() {
-		$.get('akjsdakjda', data, function(cdata) {
-			// format data first???
-			console.log(cdata); // status			
+	broadcast: function(message) {
+		
+		var self = this;
+		
+		var pulse = {
+			user: self.avatarID,
+			message: message,
+			scope: 'global'
+		};
+		
+		$.get('cic/wtf', pulse, function(cdata) {
+			console.log(cdata); // status
 		})
 	},
 	
+	inbound: function(pulse) {
+		console.log(pulse);
+		this.global(pulse.content.message);
+	},
 	
-	
+	setID: function(id) {
+		this.avatarID = id;
+	}	
 	
 };
 
