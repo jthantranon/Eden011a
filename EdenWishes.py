@@ -12,6 +12,16 @@ import EdenHeart as heart
 xID =  str(users.get_current_user().user_id()) #might have to move this into private scopes? may have sesh persist problems
 
 
+def fAllPixels():
+    q = []
+    
+    pixels = Pixel.query().fetch()
+    
+    for pixel in pixels:
+        q.append(pixel.kid)
+    allPixelKIDs = q
+    return allPixelKIDs    
+
 class Actualize():
     @classmethod
     def Pixel(self):
@@ -27,6 +37,20 @@ class Actualize():
             return pixel
         else:
             return source
+
+class PulseRouter():
+    type = ''
+    content = {}
+    
+    def __init__(self,pulse):
+        self.type = pulse.type
+        self.content = pulse.content
+    
+    if type == 'chat':
+        if content.channel == 'global':
+            allPixels = fAllPixels()
+            for pixel in allPixels:
+                channel.send_message(pixel, content)
 
 def aChan():
     token = channel.create_channel(xID,1440)

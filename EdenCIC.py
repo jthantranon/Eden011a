@@ -48,6 +48,32 @@ class Eden(webapp2.RequestHandler):
             source.put()
         self.response.out.write(jsonify(source))
 
+class WishingWell(webapp2.RequestHandler):
+    def get(self):
+        wish = json.loads(self.request.get('wish'))
+        name = wish['name']
+        try:
+            wishargs = wish['wishargs']
+        except:
+            wishargs = None
+        if name == 'myPixel':
+            grant = wish.myPixel()
+        elif name == 'aSession':
+            grant = wish.aSession()
+        elif name == 'rPulse':
+            if wishargs:
+                if isinstance(wishargs, dict):
+                    wish.PulseRouter(wishargs)
+                else:
+                    pass
+            else:
+                pass
+        else:
+            pass
+        #cpix.grant = wish#['name']
+        #cpix.anothertest = 'anothertest'
+        self.response.out.write(jsonify(grant))
+
 #class Immigration(webapp2.RequestHandler):
 #    def get(self):
 #        if cXUSE:   self.Customs()
@@ -77,6 +103,7 @@ app = webapp2.WSGIApplication([
 #                               ('/cic/asession', aSession),
                                ('/cic/asession', aSession),
                                ('/cic/eden', Eden),
+                               ('/cic/wishingwell', WishingWell),
 #                               ('/cic/jsonwish', JSONWish),
 #                               ('/cic/pulse', PULSE),
                                ],
