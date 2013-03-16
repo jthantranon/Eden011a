@@ -44,6 +44,6 @@ class aSession():
         cpix = myPixel().to_dict()
         self.Chan = aChan()
         self.cPixel = cpix
-        self.pulse = heart.Chat('global', cpix, 'Welcome!').__dict__
+        self.pulse = heart.Pulse(heart.Chat('global', cpix, 'Welcome!').__dict__).__dict__
     
 
