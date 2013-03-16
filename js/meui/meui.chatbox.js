@@ -250,10 +250,11 @@ MEUI.ChatBox.prototype = {
 		$('.tabWrapper').fadeTo(250, .5).fadeTo(500, 0);		
 	},
 	
-	global: function(msg) {
+	global: function(m) {
 		context = $(".messages");
-		msgChan = $(".chatChannel").val();
-		outmsg = '<p><span class="channelLoopback">['+ msgChan +']</span><b> Self:</b> ' + msg + '</p>';
+		console.log(m);
+		outmsg = '<p><span class="channelLoopback">['+ MEUI.Capfirst(m.channel) +']</span><b> ' +
+			m.user.name + '</b> ' + m.message + '</p>';
 		$(context).append(outmsg);
 		$(context).animate({ scrollTop: $(context).prop("scrollHeight") - $(context).height() }, 100);
 		$('.tabWrapper').fadeTo(250, .5).fadeTo(500, 0);		
@@ -284,7 +285,7 @@ MEUI.ChatBox.prototype = {
 	
 	inbound: function(pulse) {
 		console.log(pulse);
-		this.global(pulse.content.message);
+		this.global(pulse.content);
 	},
 	
 	setID: function(id) {

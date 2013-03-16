@@ -134,7 +134,7 @@ body {
 	width:433px;
 	height:230px;
 	font-family: 'TitilliumText25L600wt', Arial, Helvetica, sans-serif;
-	color:#333;
+	color:#0FF;
 	font-size:15px;
 	padding:10px;
 	overflow:auto;
@@ -184,7 +184,7 @@ body {
 }
 
 .channelLoopback {
-	color:rgba(204,0,93,.5);
+	color:rgba(0,255,255,.5);
 	font-family: 'TitilliumText25L400wt', Arial, Helvetica, sans-serif;
 	font-weight:bold;
 }

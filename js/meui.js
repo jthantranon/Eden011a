@@ -62,7 +62,9 @@ MEUI.merge = function(object1, object2) {
 	$.extend(object1, object2);	
 }
 
-
+MEUI.Capfirst = function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 
 /******************

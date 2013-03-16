@@ -24,6 +24,9 @@ MEUI.Channel = {
 	        	console.debug('Session Established...' + chantoken);
 	        	MEUI.Channel.broadcastID(id);
 	        	
+	        	alert(JSON.stringify(session.pulse));
+	        	if(session.pulse.type == 'chat') MEUI.Channel.broadcastChat(session.pulse);
+	        	
 	        };
 			
 			onClose = function() { console.debug('Session Closed.'); };
@@ -53,8 +56,8 @@ MEUI.Channel = {
 	
 	broadcastChat: function(pulse) {
 		var self = MEUI.Channel;
-		for(var i=0,j=self.chatlist.length;i<j;i++) {
-			self.chatlist.list[i].inbound(pulse);						
+		for(var i=0,j=MEUI.Channel.chatlist.length;i<j;i++) {
+			MEUI.Channel.chatlist[i].inbound(pulse);						
 		}
 	},
 	
@@ -67,6 +70,7 @@ MEUI.Channel = {
 	},
 	
 	pulseSort: function(pulse) {
+		console.log(pulse);
 		if(pulse.type == 'chat') this.broadcastChat(pulse);
 	}
 		
