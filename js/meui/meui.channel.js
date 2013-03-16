@@ -24,24 +24,33 @@ MEUI.Channel = {
 	        	console.debug('Session Established...' + chantoken);
 	        	MEUI.Channel.broadcastID(id);
 	        	
-	        	alert(JSON.stringify(session.pulse));
+	        	//onMessage();
 	        	if(session.pulse.type == 'chat') MEUI.Channel.broadcastChat(session.pulse);
 	        	
 	        };
 			
 			onClose = function() { console.debug('Session Closed.'); };
 			
-			onMessage = function(thing) { console.log(thing.pulse); MEUI.Channel.pulseSort(thing.pulse); }
+			onMessage = function() { alert('no dice'); }
+			//onMessage = function(thing) { console.log(thing.pulse); MEUI.Channel.pulseSort(thing.pulse); }
 			
 			onError = function() { console.debug('Session Error.'); };
 			
 			openChannel = function() {
 				
 				channel = new goog.appengine.Channel(chantoken);
-			    handler = {'onopen': onOpen,'onclose': onClose,'onmessage': onMessage,'onerror': onError};
-				socket = channel.open(handler);
+			    //handler = {'onopen': onOpen,'onclose': onClose,'onmessage': onMessage,'onerror': onError};
+				//socket = channel.open(handler);
+				socket = channel.open();
 				socket.onopen = onOpen;
 				socket.onmessage = onMessage;
+				
+				// channel = new goog.appengine.Channel('{{ token }}');
+			    // socket = channel.open();
+			    // socket.onopen = onOpened;
+			    // socket.onmessage = onMessage;
+			    // socket.onerror = onError;
+			    // socket.onclose = onClose;		
 				
 			};
 			

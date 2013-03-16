@@ -273,14 +273,16 @@ MEUI.ChatBox.prototype = {
 		var self = this;
 		
 		var pulse = {
-			user: self.avatarID,
-			message: message,
-			scope: 'global'
+			type: 'chat',
+			content: {
+				user: self.avatarID,
+				message: message,
+				scope: 'global'
+			}			
 		};
 		
-		$.get('cic/wtf', pulse, function(cdata) {
-			console.log(cdata); // status
-		})
+		MEUI.Wish('rPulse', pulse, function(){ console.log('not doing shit...') });
+		
 	},
 	
 	inbound: function(pulse) {

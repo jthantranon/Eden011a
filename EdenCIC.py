@@ -50,10 +50,10 @@ class Eden(webapp2.RequestHandler):
 
 class WishingWell(webapp2.RequestHandler):
     def get(self):
-        wish = json.loads(self.request.get('wish'))
-        name = wish['name']
+        wellwish = json.loads(self.request.get('wish'))
+        name = wellwish['name']
         try:
-            wishargs = wish['wishargs']
+            wishargs = wellwish['wishargs']
         except:
             wishargs = None
         if name == 'myPixel':
@@ -64,6 +64,7 @@ class WishingWell(webapp2.RequestHandler):
             if wishargs:
                 if isinstance(wishargs, dict):
                     wish.PulseRouter(wishargs)
+                    grant = wish.myPixel()       
                 else:
                     pass
             else:

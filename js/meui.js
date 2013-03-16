@@ -66,20 +66,30 @@ MEUI.Capfirst = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+//MEUI.grant; // pre-initialized for JSONWish
 
-/******************
-// sample usage:
-// extend myApp with a deeply nested namespace
-var mod = extend(myApp, 'myApp.modules.module2');
-// the correct object with nested depths is output
-console.log(mod);
-// minor test to check the instance of mod can also
-// be used outside of the myApp namesapce as a clone
-// that includes the extensions
-console.log(mod == myApp.modules.module2); //true
-// further demonstration of easier nested namespace
-// assignment using extend
-extend(myApp, 'moduleA.moduleB.moduleC.moduleD');
-extend(myApp, 'longer.version.looks.like.this');
-console.log(myApp);
-********************/
+MEUI.JSONWish = function(name,args,cbFunc) {
+	
+	var wish = { name:name, wishargs:args };
+			
+//	var wish = (function (name,args) {
+//		
+//		var wish = {};
+//		wish.name = name;
+//		wish.wishargs = args;
+//		
+//		return wish;
+//		
+//	})(name,args);
+	
+	console.debug({ wish: JSON.stringify(wish)});
+	
+	$.getJSON('/cic/wishingwell', { wish: JSON.stringify(wish)},function(grant) {
+		console.debug(grant);
+	}).done(cbFunc);
+	
+};
+
+MEUI.Wish = MEUI.JSONWish;
+// usage:
+// MEUI.Wish(name,args,cbFunc);

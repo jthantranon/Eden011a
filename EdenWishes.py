@@ -18,7 +18,7 @@ def fAllPixels():
     pixels = Pixel.query().fetch()
     
     for pixel in pixels:
-        q.append(pixel.kid)
+        q.append(str(pixel.xID))
     allPixelKIDs = q
     return allPixelKIDs    
 
@@ -43,8 +43,8 @@ class PulseRouter():
     content = {}
     
     def __init__(self,pulse):
-        self.type = pulse.type
-        self.content = pulse.content
+        self.type = pulse['type']
+        self.content = pulse['content']
     
     if type == 'chat':
         if content.channel == 'global':
@@ -53,7 +53,8 @@ class PulseRouter():
                 channel.send_message(pixel, content)
 
 def aChan():
-    token = channel.create_channel(xID,1440)
+    token = channel.create_channel('42',1440)
+    channel.send_message('42','douche')
     return token
 
 def myPixel():
