@@ -7,7 +7,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.api import channel
 from EdenModels import *
-
+import EdenHeart as heart
 
 xID =  str(users.get_current_user().user_id()) #might have to move this into private scopes? may have sesh persist problems
 
@@ -41,8 +41,9 @@ def myPixel():
 
 class aSession():
     def __init__(self):
+        cpix = myPixel().to_dict()
         self.Chan = aChan()
-        self.cPixel = myPixel().to_dict()
-    
+        self.cPixel = cpix
+        self.pulse = heart.Chat('global', cpix, 'Welcome!').__dict__
     
 
