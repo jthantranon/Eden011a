@@ -142,7 +142,7 @@ MEUI.ChatBox = function (props) {
 								
 				
 				// log chat and clear
-				this.chatlog.unshift($(this).val());
+				self.chatlog.unshift($(this).val());
 				$(this).val("");
 				this.logIndex = 0;
 			}

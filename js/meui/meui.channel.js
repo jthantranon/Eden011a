@@ -17,7 +17,7 @@ MEUI.Channel = {
 			
 			var channel, handler, socket,
 				chantoken = session.Chan,
-				id = session.cPixel.kid,
+				id = session.cPixel.kid;
 			
 	        onOpen = function() { 
 	        
@@ -28,7 +28,7 @@ MEUI.Channel = {
 			
 			onClose = function() { console.debug('Session Closed.'); };
 			
-			onMessage = function(pulse) { MEUI.Channel.pulseSort(pulse); }
+			onMessage = function(thing) { console.log(thing.pulse); MEUI.Channel.pulseSort(thing.pulse); }
 			
 			onError = function() { console.debug('Session Error.'); };
 			
