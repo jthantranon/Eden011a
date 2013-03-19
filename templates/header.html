@@ -60,3 +60,16 @@
     
     <body>
 		<audio id="PingSound" style="display: none;"></audio>
+		<div id=pubnub pub-key=pub-c-43895f98-3c97-4f05-8844-df25f2f7cf89 sub-key=sub-c-8f0032ac-90d1-11e2-bedd-12313f022c90></div>
+<script src="http://cdn.pubnub.com/pubnub-3.4.min.js"></script>
+<script>(function(){
+ 
+    PUBNUB.subscribe({
+        channel : "hello_world",
+        message : function(m){ alert(m.msg) },
+        connect : function(channel) {
+            PUBNUB.publish({ channel : "hello_world", message : "Hi" })
+        }
+    })
+ 
+})();</script>

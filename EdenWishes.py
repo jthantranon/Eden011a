@@ -8,6 +8,7 @@ from google.appengine.ext import ndb
 from google.appengine.api import channel
 from EdenModels import *
 import EdenHeart as heart
+import Pubnub as pub
 
 xID =  users.get_current_user().user_id() #might have to move this into private scopes? may have sesh persist problems
 
@@ -63,6 +64,20 @@ def aChan():
     mypix = myPixel()
     token = channel.create_channel(xID,1440)
     channel.send_message(xID,json.dumps('42'))
+    pubnub = pub.Pubnub(
+    "pub-c-43895f98-3c97-4f05-8844-df25f2f7cf89",  ## PUBLISH_KEY
+    "sub-c-8f0032ac-90d1-11e2-bedd-12313f022c90",  ## SUBSCRIBE_KEY
+    None,    ## SECRET_KEY
+    False    ## SSL_ON?
+)
+    
+    info = pubnub.publish({
+    'channel' : 'hello_world',
+    'message' : {
+        'msg' : 'Hello my World'
+    }
+})
+    print(info)
     return token
 
 class aSession():
