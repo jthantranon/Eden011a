@@ -33,7 +33,7 @@ $.when(
 	
 	// INITIALIZE HUD!!! //
 	///////////////////////
-	var CHATBOX = new MEUI.ChatBox();
+//	var CHATBOX = new MEUI.ChatBox();
 		
 		
 	// LOCAL REFERENCES //
@@ -147,6 +147,51 @@ $.when(
 	
 	}
     
+	$.getJSON('/cic/asession', function(session) {
+		
+		var channel, handler, socket,
+			chantoken = session.Chan,
+			id = session.cPixel.kid;
+		
+        onOpen = function() { 
+        
+        	console.debug('Session Established...' + chantoken);
+//        	MEUI.Channel.broadcastID(id);
+        	
+        	//onMessage();
+//        	if(session.pulse.type == 'chat') MEUI.Channel.broadcastChat(session.pulse);
+        	
+        };
+		
+		onClose = function() { console.debug('Session Closed.'); };
+		
+		onMessage = function() { alert('no dice'); }
+		//onMessage = function(thing) { console.log(thing.pulse); MEUI.Channel.pulseSort(thing.pulse); }
+		
+		onError = function() { console.debug('Session Error.'); };
+		
+		openChannel = function() {
+			
+			channel = new goog.appengine.Channel(chantoken);
+		    handler = {'onopen': onOpen,'onclose': onClose,'onmessage': onMessage,'onerror': onError};
+			socket = channel.open(handler);
+			//socket = channel.open();
+			socket.onopen = onOpen;
+			socket.onmessage = onMessage;
+			
+			// channel = new goog.appengine.Channel('{{ token }}');
+		    // socket = channel.open();
+		    // socket.onopen = onOpened;
+		    // socket.onmessage = onMessage;
+		    // socket.onerror = onError;
+		    // socket.onclose = onClose;		
+			
+		};
+//		console.log(this)
+		setTimeout(openChannel, 3);
+		
+	});
+	
     
 
 });

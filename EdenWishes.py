@@ -62,7 +62,7 @@ def myPixel():
 def aChan():
     mypix = myPixel()
     token = channel.create_channel(xID,1440)
-    channel.send_message(xID,json.dumps('42'))
+    channel.send_message(xID,json.dumps(mypix.to_dict()))
     return token
 
 class aSession():
@@ -71,5 +71,6 @@ class aSession():
         self.Chan = aChan()
         self.cPixel = cpix
         self.pulse = heart.Pulse(heart.Chat('global', cpix, 'Welcome!').__dict__).__dict__
+        channel.send_message(xID,json.dumps(cpix))
     
 
