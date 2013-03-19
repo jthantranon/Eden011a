@@ -31,7 +31,7 @@ MEUI.Channel = {
 			
 			onClose = function() { console.debug('Session Closed.'); };
 			
-			onMessage = function() { alert('no dice'); }
+			onMessage = function() { alert('no dice'); };
 			//onMessage = function(thing) { console.log(thing.pulse); MEUI.Channel.pulseSort(thing.pulse); }
 			
 			onError = function() { console.debug('Session Error.'); };

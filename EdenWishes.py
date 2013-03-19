@@ -9,7 +9,7 @@ from google.appengine.api import channel
 from EdenModels import *
 import EdenHeart as heart
 
-xID =  str(users.get_current_user().user_id()) #might have to move this into private scopes? may have sesh persist problems
+xID =  users.get_current_user().user_id() #might have to move this into private scopes? may have sesh persist problems
 
 
 def fAllPixels():
@@ -52,17 +52,18 @@ class PulseRouter():
             for pixel in allPixels:
                 channel.send_message(pixel, content)
 
-def aChan():
-    token = channel.create_channel('42',1440)
-    channel.send_message('42','douche')
-    return token
-
 def myPixel():
     myPixel = Pixel.query(Pixel.xID == xID).get()
     if myPixel:
         return myPixel
     else:
         return Actualize.Pixel()
+
+def aChan():
+    mypix = myPixel()
+    token = channel.create_channel(xID,1440)
+    channel.send_message(xID,json.dumps('42'))
+    return token
 
 class aSession():
     def __init__(self):
