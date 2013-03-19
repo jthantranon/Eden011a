@@ -14,7 +14,7 @@ MEUI.Channel = {
 	init: function() {
 		
 		$.getJSON('/cic/asession', function(session) {
-			
+						
 			var channel, handler, socket,
 				chantoken = session.Chan,
 				id = session.cPixel.kid;
@@ -39,9 +39,9 @@ MEUI.Channel = {
 			openChannel = function() {
 				
 				channel = new goog.appengine.Channel(chantoken);
-			    //handler = {'onopen': onOpen,'onclose': onClose,'onmessage': onMessage,'onerror': onError};
-				//socket = channel.open(handler);
-				socket = channel.open();
+			    handler = {'onopen': onOpen,'onclose': onClose,'onmessage': onMessage,'onerror': onError};
+				socket = channel.open(handler);
+				//socket = channel.open();
 				socket.onopen = onOpen;
 				socket.onmessage = onMessage;
 				
@@ -53,7 +53,7 @@ MEUI.Channel = {
 			    // socket.onclose = onClose;		
 				
 			};
-			
+			console.log(this)
 			setTimeout(openChannel, 50);
 			
 		});
@@ -72,7 +72,6 @@ MEUI.Channel = {
 	
 	broadcastID: function(id) {
 		var self = MEUI.Channel;
-		console.log(MEUI.Channel.chatlist);
 		for(var i=0,j=self.chatlist.length;i<j;i++) {
 			self.chatlist[i].setID(id);						
 		}

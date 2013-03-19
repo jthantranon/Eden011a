@@ -203,12 +203,10 @@ ME3D.Preloader = {
 			
 			loader.load(url, function(geometry, materials) {
 				scope.updateLoadProgress(geometry,materials,handle);
-				console.log('finished loading:' + handle);
 			}, scope.textureLoc);
 			
 		}	
-		
-		console.log(loadFunction);	
+			
 		scope.loadList.push([url,handle,loadFunction]);
 		scope.listTotal = scope.loadList.length;
 		return true;
@@ -230,25 +228,6 @@ ME3D.Preloader = {
 		for(var i=0,j=scope.loadList.length; i<j; i++){
 			scope.loadList[i][2](scope.loadList[i][0],scope.loadList[i][1]);
 			
-			
-			// var url = scope.loadList[i][0];
-			// var thisHandle = scope.loadList[i][1];
-			// console.log(scope.loadList[i][0]);
-			// console.log(scope.loadList[i][1]);
-// 			
-			// var loader = new THREE.JSONLoader();
-// 			
-			// //instead of calling json inside of a for loop
-			// //set up the call and parameters in the actual array being looped
-// 			
-			// loader.onLoadComplete = function(geometry, materials) {
-				// console.log(thisHandle);
-				// console.log(thisHandle);
-			// }
-// 		
-			// loader.load(url, function(geometry, materials,thisHandle) {
-				// scope.updateLoadProgress(geometry,materials,thisHandle);
-			// }, scope.textureLoc);
 		};
 					
 	},
@@ -256,9 +235,7 @@ ME3D.Preloader = {
 	updateLoadProgress: function(geometry, materials, handle) {
 		var scope = this;
 		
-		console.log('loading ' + handle);
 		scope.assets[handle] = { geometry:geometry, materials:materials};
-		console.log(scope.assets[handle]);
 		scope.loadedTotal++;
 		
 		if (scope.loadedTotal == scope.listTotal) {

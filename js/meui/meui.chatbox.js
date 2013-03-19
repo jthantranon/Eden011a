@@ -252,7 +252,6 @@ MEUI.ChatBox.prototype = {
 	
 	global: function(m) {
 		context = $(".messages");
-		console.log(m);
 		outmsg = '<p><span class="channelLoopback">['+ MEUI.Capfirst(m.channel) +']</span><b> ' +
 			m.user.name + '</b> ' + m.message + '</p>';
 		$(context).append(outmsg);
@@ -281,7 +280,7 @@ MEUI.ChatBox.prototype = {
 			}			
 		};
 		
-		MEUI.Wish('rPulse', pulse, function(){ console.log('not doing shit...') });
+		MEUI.Wish('rPulse', pulse, function(){ });
 		
 	},
 	

@@ -28,10 +28,8 @@ ME3D.Avatar = function (location) {
 	this.lastUpdate = 1;
 		
 	// body parts geometry
-	console.log(ME3D);
 	var assets = ME3D.Preloader.assets;
 	var head, cape, aura, globe, torso;
-	console.log(assets);
 	head = new THREE.Mesh(assets.meAvatarHead.geometry, assets.meAvatarHead.materials[0]);
 	cape = new THREE.Mesh(assets.meAvatarCape.geometry, assets.meAvatarCape.materials[0]);
 	aura = new THREE.Mesh(assets.meAvatarAura.geometry, assets.meAvatarAura.materials[0]);
@@ -47,10 +45,7 @@ ME3D.Avatar = function (location) {
 	torso.geometry.computeBoundingBox(); torso.geometry.computeBoundingSphere();
 	innerglobe.geometry.computeBoundingBox(); innerglobe.geometry.computeBoundingSphere();
 	outerglobe.geometry.computeBoundingBox(); outerglobe.geometry.computeBoundingSphere();
-	
-	
-	console.log(assets.meAvatarHead.materials[0]);
-	
+		
 	
 	innerglobe.material.transparent  = true;
 	innerglobe.material.opacity  = .3;
@@ -218,7 +213,6 @@ ME3D.Avatar.prototype = {
 	},
 	
 	getBoundsMesh: function() {
-		console.log(this.body);
 		//this.body.scale.set(.02,.02,.02);
 		return new THREE.Mesh(new THREE.CubeGeometry(1,1,1));//this.body;
 	},

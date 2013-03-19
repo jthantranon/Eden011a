@@ -41,15 +41,21 @@ handlers:
 - url: /robots.txt
   static_files: robots.txt
   upload: robots.txt
+  
+- url: /chris.*
+  script: chris.app
 
 - url: /eden.*
   script: EdenEden.app
   
 - url: /cic.*
   script: EdenCIC.app
-  
+    
 - url: /.*
   script: main.app
+
+inbound_services:
+- channel_presence
 
 
 libraries:
