@@ -11,16 +11,21 @@ MEUI.Channel = {
 	avatarID:'',
 	chatlist:[],
 	
-	init: function() {
+	init: function(goog) {
+		
+		console.log('RUNNING CHANNEL INIT');
 		
 		$.getJSON('/cic/asession', function(session) {
+			
+			console.log('JSON CALL TO GET TOKEN');
 						
 			var channel, handler, socket,
 				chantoken = session.Chan,
 				id = session.cPixel.kid;
 			
-	        onOpen = function() { 
-	        
+	        onOpen = function() {
+	        	
+	        	console.log('ONOPEN CALLED');	        
 	        	console.debug('Session Established...' + chantoken);
 	        	MEUI.Channel.broadcastID(id);
 	        	
@@ -31,12 +36,17 @@ MEUI.Channel = {
 			
 			onClose = function() { console.debug('Session Closed.'); };
 			
-			onMessage = function() { alert('no dice'); }
+			onMessage = function(DATA) {
+				console.log('ONMESSAGE CALLED'); 
+				alert(DATA.data);
+			}
 			//onMessage = function(thing) { console.log(thing.pulse); MEUI.Channel.pulseSort(thing.pulse); }
 			
 			onError = function() { console.debug('Session Error.'); };
 			
 			openChannel = function() {
+				
+				console.log('OPEN CHANNEL CALLED');
 				
 				channel = new goog.appengine.Channel(chantoken);
 			    handler = {'onopen': onOpen,'onclose': onClose,'onmessage': onMessage,'onerror': onError};
@@ -54,7 +64,7 @@ MEUI.Channel = {
 				
 			};
 			console.log(this)
-			setTimeout(openChannel, 50);
+			setTimeout(openChannel, 10);
 			
 		});
 	},
@@ -83,7 +93,7 @@ MEUI.Channel = {
 	}
 		
 };
-
-MEUI.Channel.init();
+console.log('ABOUT TO RUN CHANNEL INIT');
+MEUI.Channel.init(goog);
 
 

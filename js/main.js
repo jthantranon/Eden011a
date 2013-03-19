@@ -1,10 +1,23 @@
 $.when(
-    $.getScript( "/_ah/channel/jsapi" ),
+    $.getScript( "/_ah/channel/jsapi"),
     $.Deferred(function( deferred ){
         $( deferred.resolve );
     })
-).done(function(){
+).done(function(goog){
 	
+	console.log('GOOGLE CHANNEL = LOADED');
+	
+	$.when(
+	    $.getScript( "js/meui/meui.channel.js"),
+	    $.getScript( "js/meui/meui.chatbox.js"),
+	    $.Deferred(function( deferred ){
+	        $( deferred.resolve );
+	    })
+	).done(function(goog){
+		
+	console.log('MAIN EXECUTION');
+		
+
 	// disabled splash
     $('#splash').hide();
 	/* 
@@ -147,6 +160,6 @@ $.when(
 	
 	}
     
-    
+	}); //end    
 
 });
