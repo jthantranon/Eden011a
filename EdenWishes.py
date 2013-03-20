@@ -9,7 +9,7 @@ from google.appengine.api import channel
 from EdenModels import *
 import EdenHeart as heart
 
-xID =  users.get_current_user().user_id() #might have to move this into private scopes? may have sesh persist problems
+
 
 
 def fAllPixels():
@@ -25,6 +25,7 @@ def fAllPixels():
 class Actualize():
     @classmethod
     def Pixel(self):
+        xID =  users.get_current_user().user_id() #might have to move this into private scopes? may have sesh persist problems
         source = ndb.Key('Crystal','1').get()
         if source:
             source.uCount += 1
@@ -45,14 +46,17 @@ class PulseRouter():
     def __init__(self,pulse):
         self.type = pulse['type']
         self.content = pulse['content']
-    
-    if type == 'chat':
-        if content.channel == 'global':
-            allPixels = fAllPixels()
-            for pixel in allPixels:
-                channel.send_message(pixel, content)
+        
+        if self.type == 'chat':
+            
+            if self.content['scope'] == 'global':
+                allPixels = fAllPixels()
+                for pixel in allPixels:
+                    channel.send_message(pixel,json.dumps(self.content))
+                    #channel.send_message(apixel, self.content)
 
 def myPixel():
+    xID =  users.get_current_user().user_id() #might have to move this into private scopes? may have sesh persist problems
     myPixel = Pixel.query(Pixel.xID == xID).get()
     if myPixel:
         return myPixel
@@ -60,7 +64,7 @@ def myPixel():
         return Actualize.Pixel()
 
 def aChan():
-    mypix = myPixel()
+    xID =  users.get_current_user().user_id() #might have to move this into private scopes? may have sesh persist problems
     token = channel.create_channel(xID,1440)
     channel.send_message(xID,json.dumps('42'))
     return token

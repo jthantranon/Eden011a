@@ -21,6 +21,9 @@ handlers:
 - url: /img
   static_dir: img
   
+- url: /sounds
+  static_dir: sounds  
+  
 - url: /js
   static_dir: js
   
@@ -50,6 +53,9 @@ handlers:
   
 - url: /cic.*
   script: EdenCIC.app
+  
+- url: /app.*
+  script: utils.app
     
 - url: /.*
   script: main.app

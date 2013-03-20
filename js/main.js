@@ -1,5 +1,7 @@
 $.when(
     $.getScript( "/_ah/channel/jsapi"),
+    // $.getScript( "js/me3d.js"),
+    // $.getScript( "js/meui.js"),
     $.Deferred(function( deferred ){
         $( deferred.resolve );
     })
@@ -10,6 +12,30 @@ $.when(
 	$.when(
 	    $.getScript( "js/meui/meui.channel.js"),
 	    $.getScript( "js/meui/meui.chatbox.js"),
+	    // $.getScript( "js/meui/meui.glass.js"),
+	    // $.getScript( "js/UIControl.js"),
+	    // $.getScript( "js/me3d/me3d.interactions.js"),
+	    // $.getScript( "js/me3d/me3d.entity.js"),
+	    // $.getScript( "js/me3d/me3d.system.js"),
+	    // $.getScript( "js/me3d/me3d.scene.js"),
+	    // $.getScript( "js/me3d/me3d.physics.js"),
+	    // $.getScript( "js/me3d/me3d.population.js"),
+	    // $.getScript( "js/me3d/me3d.emitter.js"),
+	    // $.getScript( "js/me3d/me3d.sparks.js"),
+	    // $.getScript( "js/me3d/me3d.picker.js"),
+	    // $.getScript( "js/me3d/me3d.bounds.js"),
+	    // $.getScript( "js/me3d/me3d.stage.js"),
+	    // $.getScript( "js/me3d/me3d.grid.js"),
+	    // $.getScript( "js/me3d/me3d.stage.js"),
+	    // $.getScript( "js/me3d/me3d.avatar.js"),
+	    // $.getScript( "js/me3d/me3d.testcube.js"),
+	    // $.getScript( "js/me3d/me3d.avatarmover.js"),
+	    // $.getScript( "js/me3d/me3d.builder.js"),
+	    // $.getScript( "js/me3d/me3d.controls.js"),
+	    // $.getScript( "js/me3d/me3d.transitions.js"),
+	    // $.getScript( "js/me3d/me3d.render.js"),
+	    // $.getScript( "js/me3d/me3d.world.js"),    
+// 	    
 	    $.Deferred(function( deferred ){
 	        $( deferred.resolve );
 	    })
@@ -47,7 +73,10 @@ $.when(
 	// INITIALIZE HUD!!! //
 	///////////////////////
 	var CHATBOX = new MEUI.ChatBox();
-		
+	var testWindow = new MEUI.Glass();
+	var slideWindow = new MEUI.SlideGlass();
+	var loginTab = new MEUI.LoginTab();
+	
 		
 	// LOCAL REFERENCES //
 	//////////////////////

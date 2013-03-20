@@ -170,7 +170,7 @@ ME3D.Preloader = {
 	tLoader: new THREE.TextureLoader(),
 	sLoader: new THREE.SceneLoader(),
 	
-	textureLoc:'textures/',
+	textureLoc:'textures',
 	
 	log: function() {
 		ME3D.log(this);		

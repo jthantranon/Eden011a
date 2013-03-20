@@ -46,9 +46,9 @@ MEUI.surrogate = function() {};
 
 MEUI.extend = function (base,sub) {
 	// Copy the prototype from the base to setup inheritance
-    ME3D.surrogate.prototype = base.prototype;
+    MEUI.surrogate.prototype = base.prototype;
     // Tricky huh?
-    sub.prototype = new ME3D.surrogate();
+    sub.prototype = new MEUI.surrogate();
     // Remember the constructor property was set wrong, let's fix it
     sub.prototype.constructor = sub;
 }
@@ -63,7 +63,8 @@ MEUI.merge = function(object1, object2) {
 }
 
 MEUI.Capfirst = function(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+	if (typeof string !== 'undefined' && string != '') {
+		return string.charAt(0).toUpperCase() + string.slice(1); }
 }
 
 //MEUI.grant; // pre-initialized for JSONWish
@@ -85,7 +86,7 @@ MEUI.JSONWish = function(name,args,cbFunc) {
 	console.debug({ wish: JSON.stringify(wish)});
 	
 	$.getJSON('/cic/wishingwell', { wish: JSON.stringify(wish)},function(grant) {
-		console.debug(grant);
+		console.debug(grant); console.debug(this);
 	}).done(cbFunc);
 	
 };

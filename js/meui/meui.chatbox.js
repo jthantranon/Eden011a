@@ -131,7 +131,7 @@ MEUI.ChatBox = function (props) {
 						self.loopback($(this).val());
 					}
 					if ($('.chatChannel').val() == "Global") {
-						if(self.avatarID != '') self.broadcast($(this).val());
+						if(MEUI.Channel.avatarID != '') self.broadcast($(this).val());
 						else self.loopback('Not yet connected.. Please try again.');
 					}
 					if ($('.chatChannel').val() == "Local") {
@@ -253,10 +253,17 @@ MEUI.ChatBox.prototype = {
 	global: function(m) {
 		context = $(".messages");
 		outmsg = '<p><span class="channelLoopback">['+ MEUI.Capfirst(m.channel) +']</span><b> ' +
-			m.user.name + '</b> ' + m.message + '</p>';
+			m.user.name + ':</b> ' + m.message + '</p>';
 		$(context).append(outmsg);
 		$(context).animate({ scrollTop: $(context).prop("scrollHeight") - $(context).height() }, 100);
-		$('.tabWrapper').fadeTo(250, .5).fadeTo(500, 0);		
+		$('.tabWrapper').fadeTo(250, .5).fadeTo(500, 0);
+		this.sound('pin');
+	},
+	
+	sound: function(soundname) {
+		PingSound = document.getElementById('PingSound');
+		PingSound.src = '/sounds/'+soundname+'.mp3';
+		PingSound.play();
 	},
 	
 	printMessage: function() {
@@ -274,19 +281,28 @@ MEUI.ChatBox.prototype = {
 		var pulse = {
 			type: 'chat',
 			content: {
-				user: self.avatarID,
+				user: MEUI.Channel.avatarID,
 				message: message,
 				scope: 'global'
 			}			
 		};
 		
+		//console.log('call: MEUI.ChatBox.broadcast()');
 		MEUI.Wish('rPulse', pulse, function(){ });
 		
 	},
 	
 	inbound: function(pulse) {
-		console.log(pulse);
-		this.global(pulse.content);
+		
+		//alert(JSON.stringify(pulse));
+		var m = {
+			channel: pulse.scope,
+			user: pulse.user,
+			message: pulse.message		
+		}
+		
+		//console.log(m);
+		this.global(m);
 	},
 	
 	setID: function(id) {

@@ -50,7 +50,7 @@ MEUI.Widget.prototype = {
 		
 	constructor: ME3D.Widget,
 	
-	log: {
+	log: function() {
 		console.log(this);
 	}
 
