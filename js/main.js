@@ -5,6 +5,12 @@ $.when(
     })
 ).done(function(goog){
 	
+	function cb(msg){
+		console.log(msg);
+	};
+	
+	cb('HAH!');
+	
 	console.log('GOOGLE CHANNEL = LOADED');
 	
 	$.when(
