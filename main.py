@@ -17,10 +17,13 @@ class MainPage(webapp2.RequestHandler):
         else:
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
-    
+        
+        filelist = [ f for f in os.listdir('templates/') if os.path.isfile(os.path.join('templates/',f))]
+        
     	# code for hiding stuff that needs to start hidden
     	template_values = {
-            'hide': 'display:none;'
+            'hide': 'display:none;',
+            'filelist': filelist
         }        
         
         # main page base        
