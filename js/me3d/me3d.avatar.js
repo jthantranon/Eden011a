@@ -197,6 +197,10 @@ ME3D.Avatar = function (location) {
 		}
 						
 	} //// end tick ////
+	
+	this.onClick = function() {
+		alert('ohshii! you clicked!!');
+	}
 
 };
 

@@ -21,13 +21,9 @@ ME3D.Render = function (scene, camera, props) {
 	self.props = {
 		width: $(window).width(), 
 		height: $(window).height(),
-		container: document.createElement( 'div' ),	
+		container: $('#container'),
 		clock: new THREE.Clock()
 	};
-	
-	// add renderer container to DOM
-	///////////////////////////////////
-	document.body.appendChild( self.props.container );
 	
 	// stats
 	///////////////////////////////////
@@ -35,7 +31,7 @@ ME3D.Render = function (scene, camera, props) {
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';
 	stats.domElement.style.zIndex = 100;
-	self.props.container.appendChild( stats.domElement );
+	self.props.container.append( stats.domElement );
 		
 	
 	// queues
@@ -46,11 +42,15 @@ ME3D.Render = function (scene, camera, props) {
 	
 	// default renderer
 	///////////////////////////////////
-	var renderer = new THREE.WebGLRenderer();
-	renderer.sortObjects = false;
-	renderer.setSize(self.props.width, self.props.height);
-	self.props.container.appendChild( renderer.domElement );
-	self.element = renderer.domElement;
+	this.renderer = new THREE.WebGLRenderer();
+	this.renderer.sortObjects = false;
+	
+	// add renderer container to DOM
+	///////////////////////////////////
+	this.renderer.setSize(this.width, this.height);
+	this.props.container.append(this.renderer.domElement);
+	
+	// self.element = renderer.domElement;
 	
 	
 	// GOGOGOGOGO
@@ -101,7 +101,7 @@ ME3D.Render = function (scene, camera, props) {
 			}
 		};
 		
-	    renderer.render(self.scene, self.camera);
+	    self.renderer.render(self.scene, self.camera);
 	}
 	
 };
@@ -133,5 +133,9 @@ ME3D.Render.prototype = {
 		// TODO: implement removeAnimation and test
 		//var removeIndex = this.animationQueue.indexOf(action);
 		//this.animationQueue.splice(removeIndex,1);
+	},
+	
+	setClearColor: function(color) {
+		this.renderer.clearColor = color;
 	},
 };

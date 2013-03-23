@@ -124,7 +124,7 @@ $.when(
 	
 	// INITIALIZE AVATAR //
 	///////////////////////
-	var myAvatar = new ME3D.Avatar(new THREE.Vector3(1,1,1));
+	var myAvatar = new ME3D.Avatar(new THREE.Vector3(2,2,2));
 	CITY.scene.add(myAvatar.getAvatar());
 	myAvatar.body.scale.set(.02,.02,.02);
 	var myAvatarBounds = BOUNDS.getBoundsMax(myAvatar.getBoundsMesh());
@@ -151,10 +151,6 @@ $.when(
 //	PHYSICS.addMassBody(testCube,cubeBounds,.1);
 	
 	var testCube = new ME3D.TestCube();
-	testCube.useQuaternion = true;
-	var cubeBounds = BOUNDS.getBoundsMax(testCube.getMesh());	
-	//PHYSICS.addMassBody(testCube,cubeBounds,.1);
-	
 	CITY.scene.add(testCube);
 	
 	// BUILDINGS!! //

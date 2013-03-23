@@ -12,7 +12,7 @@ ME3D.TestCube = function (props) {
 	/////////////////
 	THREE.Object3D.call(this);
 	ME3D.Entity.call(this);
-	this.init(); // call from entity
+	//this.init(); // call from entity
 	
 	// default paramaters //
 	////////////////////////
@@ -29,22 +29,23 @@ ME3D.TestCube = function (props) {
 	
 	// private properties //
 	///////////////////////
-	var cubeMap = THREE.ImageUtils.loadTexture("textures/boxStripe.gif");	
-	var testCube = new THREE.Mesh(
-		new THREE.CubeGeometry(1,1,1),
-		new THREE.MeshPhongMaterial({
-			map: cubeMap, emissive:0x007777,
-			opacity: .75, transparent:true,
-			side:THREE.DoubleSide}));
+	//var cubeMap = THREE.ImageUtils.loadTexture("textures/boxStripe.gif");	
+	// var testCube = new THREE.Mesh(
+		// new THREE.CubeGeometry(1,1,1),
+		// new THREE.MeshPhongMaterial({
+			// map: cubeMap, emissive:0x007777,
+			// opacity: .75, transparent:true,
+			// side:THREE.DoubleSide}));
+	var cubeGeo = new THREE.CubeGeometry(1,1,1);
+	var cubeMat = new THREE.MeshNormalMaterial();
 	
-	testCube.useQuaternion = true;
-	var quaternion = new THREE.Quaternion();
-	quaternion.setFromAxisAngle( new THREE.Vector3( 1, 0, 0 ), ME3D.de2ra(-45) );
-    testCube.quaternion.copy(quaternion);
-   	testCube.position.y = 4;
-   	testCube.name = 'cubeMesh';
-   	this.add(testCube);
+	this.geometry = cubeGeo;
+	this.material = cubeMat;
 	
+   	this.position.x = 1;
+   	this.position.y = 1;
+   	this.position.z = 1;
+   	this.name = 'cubeMesh';
 	
 	// private methods //
 	/////////////////////
@@ -56,6 +57,8 @@ ME3D.TestCube = function (props) {
 	 *******************/
 	
    	console.log(this);
+   	ME3D.Ticker.add(this);
+   	return this;
 };
 
 
@@ -92,7 +95,7 @@ ME3D.TestCube = function (props) {
 	}
 	
 	ME3D.TestCube.prototype.getMesh = function() {
-		return this.getChildByName('cubeMesh');
+		return this;
 	}
 
 /*

@@ -62,6 +62,9 @@ MEUI.LoginTab = function (props) {
 	// CUSTOM BINDINGS //
 	////////////////////
 	this.customBindings = function() {
+		this.$domctx.find('button').on('cilck', function(){
+			window.location = '_ah/login';
+		})
 		
 	};
 	

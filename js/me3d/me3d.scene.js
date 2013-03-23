@@ -18,8 +18,8 @@ ME3D.Scene = function () {
 		clock = new THREE.Clock();
 		
 		
-	var container = document.createElement( 'div' );
-	document.body.appendChild( container );	
+	// var container = document.createElement( 'div' );
+	// $(body).append( container );	
 	
 	
 	// default camera attributes

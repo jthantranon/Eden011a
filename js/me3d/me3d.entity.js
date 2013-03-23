@@ -8,8 +8,8 @@
 
 ME3D.Entity = function() {
 	
-	THREE.Mesh.call(this);
-    UIControls.UIControl.call(this);
+	//THREE.Mesh.call(this);
+    //UIControls.UIControl.call(this);
 		
 	var self = this;
 	
@@ -18,7 +18,7 @@ ME3D.Entity = function() {
 	this.click = function(event){ console.log(this) };
 	this.mouseIn = function(){ console.log(this) };
 	this.mouseOut = function(){ console.log(this) };
-	this.destroy = function(){ ME3D.Ticker.add(this); };
+	//this.destroy = function(){ ME3D.Ticker.remove(this); };
 	
 };
 
@@ -26,6 +26,6 @@ ME3D.Entity = function() {
  * API
  */
 
-ME3D.extend(THREE.Mesh, ME3D.Entity);
+// ME3D.extend(THREE.Mesh, ME3D.Entity);
 
 ME3D.Entity.prototype.constructor = ME3D.Entity;

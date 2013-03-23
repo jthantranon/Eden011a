@@ -63,7 +63,10 @@ ME3D.Picker = function (scene, camera) {
 				INTERSECTED.material.opacity = .75;
 				if(isClicked) { 
 					//console.debug(INTERSECTED.data.coords);
-					ME3D.Ticker.triggerClick(INTERSECTED.parent);
+					//ME3D.Ticker.triggerClick(INTERSECTED.parent);
+					console.log(INTERSECTED);
+					if(INTERSECTED.hasOwnProperty('onClick')) INTERSECTED.onClick();					
+					
 				}
 				isClicked=false;
 			// its the same or a new item
@@ -71,11 +74,13 @@ ME3D.Picker = function (scene, camera) {
 				INTERSECTED = intersects[ 0 ].object;
 				INTERSECTED.material.opacity = .75;
 				
-				ME3D.Ticker.triggerHover(INTERSECTED.parent);
+				//ME3D.Ticker.triggerHover(INTERSECTED.parent);
 				
 				if(isClicked) { 
 					//console.debug(INTERSECTED.data.coords);
-					ME3D.Ticker.triggerClick(INTERSECTED.parent);
+					//ME3D.Ticker.triggerClick(INTERSECTED.parent);
+					console.log(INTERSECTED);
+					if(INTERSECTED.hasOwnProperty('onClick')) INTERSECTED.onClick();		
 				}
 				isClicked=false;
 			}
