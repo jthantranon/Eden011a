@@ -73,9 +73,12 @@ $.when(
 	// INITIALIZE HUD!!! //
 	///////////////////////
 	var CHATBOX = new MEUI.ChatBox();
-	var testWindow = new MEUI.Glass();
-	var slideWindow = new MEUI.SlideGlass();
-	var loginTab = new MEUI.LoginTab();
+	var testDialog1 = new MEUI.Dialog();
+	var testDialog2 = new MEUI.DialogChat();
+	var dialog = ['<p>Lorem ipsum dolar sit amet.</p>', '<p>This is the way to the end of the road.</p>', '<p>Join me, and together we can rule the galaxy as father and son!</p>']
+	
+	var testDialog3 = new MEUI.DialogPaged({content:dialog});
+	
 	
 		
 	// LOCAL REFERENCES //

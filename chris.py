@@ -23,7 +23,7 @@ class doMessageStuff(webapp2.RequestHandler):
         mytoken = self.request.get('token')
         message = self.request.get('message')
         data = {'message':message }
-        stringData = json.dumps(data);
+        stringData = json.dumps(data)
         token = channel.send_message(mytoken, stringData)
         #self.response.out.write(json.dumps(data))
         

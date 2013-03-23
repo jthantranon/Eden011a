@@ -17,11 +17,26 @@ class MainPage(webapp2.RequestHandler):
         else:
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
+            
+        
+#        vendorlist = [ f for f in os.listdir('js/vendor') if os.path.isfile(os.path.join('js/vendor',f))]
+#        jslist = [ f for f in os.listdir('js/') if os.path.isfile(os.path.join('js/',f))]
+#        me3dlist = [ f for f in os.listdir('js/me3d') if os.path.isfile(os.path.join('js/me3d',f))]
+#        meuilist = [ f for f in os.listdir('js/meui') if os.path.isfile(os.path.join('js/meui',f))]
+        
+        
+        ## sort file list      
     
     	# code for hiding stuff that needs to start hidden
     	template_values = {
-            'hide': 'display:none;'
+            'hide': 'display:none;',
+#            'vendorlist': vendorlist,
+#            'jslist': jslist,
+#            'me3dlist': me3dlist,
+#            'meuilist': meuilist            
         }        
+        
+        
         
         # main page base        
     	header = jinja_environment.get_template('header.html')
@@ -30,20 +45,28 @@ class MainPage(webapp2.RequestHandler):
     	# modules
         splash = jinja_environment.get_template('splash.html')
     	chat = jinja_environment.get_template('chat.html')
-    	# glass = jinja_environment.get_template('glass.html')
-    	# console = jinja_environment.get_template('console.html')
-    	# location = jinja_environment.get_template('location.html')
-    	# inventory = jinja_environment.get_template('inventory.html')
-    	# avatarsheet = jinja_environment.get_template('avatarsheet.html')
-
+    	
+        # snippets
+        sheet = jinja_environment.get_template('sheet.html')
+        glass = jinja_environment.get_template('glass.html')
+        dialog = jinja_environment.get_template('dialog.html')
+        dialogchat = jinja_environment.get_template('dialogchat.html')
+        dialogpaged = jinja_environment.get_template('dialogpaged.html')
+        
+        
+        ## render header
         self.response.out.write(header.render(template_values))
         self.response.out.write(splash.render(template_values))
         self.response.out.write(chat.render(template_values))
-        #self.response.out.write(glass.render(template_values))
-        #self.response.out.write(console.render(template_values))
-        #self.response.out.write(location.render(template_values))
-        #self.response.out.write(inventory.render(template_values))
-        #self.response.out.write(avatarsheet.render(template_values))
+        
+        ## render snippets
+        self.response.out.write(sheet.render(template_values))
+        self.response.out.write(glass.render(template_values))
+        self.response.out.write(dialog.render(template_values))
+        self.response.out.write(dialogchat.render(template_values))
+        self.response.out.write(dialogpaged.render(template_values))
+        
+        ## Footer
         self.response.out.write(footer.render(template_values))
         
 app = webapp2.WSGIApplication([

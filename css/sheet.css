@@ -1,0 +1,97 @@
+/* CSS Document */
+
+.sheetWrapper {
+	width:300px;
+	background-image:url(../img/glass/glassSideBG.png);
+	background: -webkit-linear-gradient(-45deg, rgba(255,255,255,0.75) 0%,rgba(175,175,175,0.75) 100%);
+	background-position: center, left top;
+	background-repeat:repeat-y;
+	position:fixed;
+	box-shadow: 0px 0px 10px rgba(0,0,0,.25), inset 0px 0px 10px rgba(255,255,255,.35);	
+	border-radius:3px;	
+}
+
+.sheetHeader {
+	position:absolute;
+	margin-top:-10px;
+	width:100%;
+	opacity:.5;
+}
+
+.sheetContent {
+	margin:10px;
+	color:#39C;
+	font-family: 'TitilliumText25L400wt', Arial, Helvetica, sans-serif;
+	font-size:18px;
+	overflow:auto;
+	transition: color 2s;
+	-moz-transition: color 2s; /* Firefox 4 */
+	-webkit-transition: color 2s; /* Safari and Chrome */
+	-o-transition: color 2s; /* Opera */
+}
+
+.sheetContent:hover {
+	color:#0FF;
+	transition: color 2s;
+	-moz-transition: color 2s; /* Firefox 4 */
+	-webkit-transition: color 2s; /* Safari and Chrome */
+	-o-transition: color 2s; /* Opera */
+}
+
+.sheetContent p {
+	margin-top:2px;
+	margin-bottom:10px;
+}
+
+.sheetContent span {
+	margin-bottom:10px;
+}
+
+.sheetContent h1, .glassContent label {
+	color:#000;
+	font-family: 'TitilliumText25L600wt', Arial, Helvetica, sans-serif;
+	font-size:10px;
+	text-transform:uppercase;
+	margin-bottom:3px;
+	margin-top:0;
+}
+
+.sheetContent input {
+	margin-bottom:14px;
+	margin-left:0px;
+	color:#666;
+	font-family: 'TitilliumText25L600wt', Arial, Helvetica, sans-serif;
+	font-size:15px;
+	height:24px;
+	padding-top:2px;
+}
+
+.sheetContent input[type=button] {
+	background-color:#DDD;
+	border-radius:3px;
+	border:#666 thin solid;
+	margin-top:2px;
+}
+
+.sheetContent input[type=button]:hover {
+	background-color:#39C;
+	border-radius:3px;
+	border:#666 thin solid;
+	color:#FFF;
+}
+
+.sheetContent input[type=button]:active {
+	background-color:#FF0;
+	border-radius:3px;
+	border:#666 thin solid;
+	color:#666;
+}
+
+.sheetContent input:last-child {
+	margin-bottom:0px;
+}
+
+.clearfix {
+	clear:both;
+	height:0px;
+}

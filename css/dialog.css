@@ -1,0 +1,169 @@
+/* CSS Document */
+
+.dialogWrapper {
+	width:500px;
+	height:220px;
+	background-image:url(../img/glass/glassSideBG.png);
+	background: -webkit-linear-gradient(-45deg, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.15) 100%);
+	background-position: center, left top;
+	background-repeat:repeat-y;
+	position:fixed;
+	box-shadow: 0px 0px 10px rgba(0,0,0,.25), inset 0px 0px 10px rgba(255,255,255,.35);	
+	border-radius:3px;	
+}
+
+.dialogWrapper .sheetHeader {
+	position:absolute;
+	margin-top:-10px;
+	width:100%;
+	opacity:.5;
+}
+
+.dialogWrapper .sheetContent {
+	height:200px;
+	margin:10px 15px 10px 10px;
+	color:#0FF;
+	font-family: 'Titillium Web', Arial, Helvetica, sans-serif;
+	font-size:18px;
+	overflow:scroll;
+	overflow-x:hidden;
+	transition: color 2s;
+	-moz-transition: color 2s; /* Firefox 4 */
+	-webkit-transition: color 2s; /* Safari and Chrome */
+	-o-transition: color 2s; /* Opera */
+}
+
+.dialogWrapper .sheetContent img {
+	margin-left:5px;	
+}
+
+.dialogWrapper .sheetContent h3 {
+	font-size:26px;
+	position:relative;
+	margin-left:100px;
+	margin-top:-110px;
+	margin-bottom:5px;
+}
+
+.dialogWrapper .sheetContent p {
+	line-height:18px;
+	margin-left:100px;
+	margin-top:0px;
+	font-size:16px;
+}
+
+.dialogWrapper .sheetContent:hover {
+	color:#9FF;
+	transition: color 2s;
+	-moz-transition: color 2s; /* Firefox 4 */
+	-webkit-transition: color 2s; /* Safari and Chrome */
+	-o-transition: color 2s; /* Opera */
+}
+
+.dialogWrapper .sheetContent p {
+	margin-top:2px;
+	margin-bottom:10px;
+}
+
+.dialogWrapper .sheetContent span {
+	margin-bottom:10px;
+}
+
+.dialogWrapper .sheetContent h1, .glassContent label {
+	color:#000;
+	font-family: 'TitilliumText25L600wt', Arial, Helvetica, sans-serif;
+	font-size:10px;
+	text-transform:uppercase;
+	margin-bottom:3px;
+	margin-top:0;
+}
+
+.dialogWrapper .sheetContent input {
+	margin-bottom:14px;
+	margin-left:0px;
+	color:#666;
+	font-family: 'TitilliumText25L600wt', Arial, Helvetica, sans-serif;
+	font-size:15px;
+	height:24px;
+	padding-top:2px;
+}
+
+.dialogWrapper .sheetContent input[type=button] {
+	background-color:#DDD;
+	border-radius:3px;
+	border:#666 thin solid;
+	margin-top:2px;
+}
+
+.dialogWrapper .sheetContent input[type=button]:hover {
+	background-color:#39C;
+	border-radius:3px;
+	border:#666 thin solid;
+	color:#FFF;
+}
+
+.dialogWrapper .sheetContent input[type=button]:active {
+	background-color:#FF0;
+	border-radius:3px;
+	border:#666 thin solid;
+	color:#666;
+}
+
+.dialogWrapper .sheetContent input:last-child {
+	margin-bottom:0px;
+}
+
+.dialogWrapper .header {
+	
+}
+
+/* dialog paged specific */
+
+.dialogWrapper .sheetFooter .dialogAdvance {
+	color:#FFF;
+	background-color:#39C;
+	width:100px;
+	text-align:center;
+	font-family: 'Titillium Web', Arial, Helvetica, sans-serif;
+	text-transform:uppercase;
+	font-size:14px;
+	margin-left:375px;
+	padding-top:3px;
+	padding-bottom:3px;
+	border-bottom-left-radius:3px;
+	border-bottom-right-radius:3px;
+}
+
+/* dialog chat specific */
+
+.dialogWrapper .sheetFooter .dialogChat {
+	color:#FFF;
+	background-color:#39C;
+	border-radius:2px;
+	padding:3px;
+}
+
+.dialogWrapper .sheetFooter .dialogChat .dialogChatEntry {
+	width:420px;
+	margin-left:2px;
+}
+
+.dialogWrapper .sheetFooter .dialogChat .submitChatEntry {
+	width:60px;
+	margin-left:6px;
+}
+
+.dialogWrapper .sheetContent .dialogUser1 {
+	font-weight:bold;
+	color:#4AD;
+}
+
+.dialogWrapper .sheetContent .dialogUser2 {
+	font-weight:bold;
+	color:#28B;
+}
+
+.clearfix {
+	clear:both;
+	height:0px;
+}

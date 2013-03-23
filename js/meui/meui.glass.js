@@ -223,5 +223,3 @@ MEUI.Glass.prototype = {
 /*
  * GLOBALS
  */
-
-MEUI.GlassID = 0;

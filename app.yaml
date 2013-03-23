@@ -27,6 +27,9 @@ handlers:
 - url: /js
   static_dir: js
   
+- url: /tpl
+  static_dir: tpl
+  
 - url: /docs
   static_dir: docs
   
