@@ -1,0 +1,40 @@
+.contextMenuWrapper {
+	width:220px;
+	height:160px;
+	position:fixed;
+	top:20px;
+	left:20px;
+}
+
+.contextMenuWrapper .contextMenuHeader {
+	height:6px;
+	width:200px;
+	background:url(../img/contextmenu/menuTop.png);
+	position:absolute;
+	margin-top:-6px;
+	margin-left:10px;
+	border-top-left-radius:8px;
+	border-top-right-radius:8px;
+}
+
+.contextMenuWrapper .contextMenuContent {
+	width:200px;
+	height:160px;
+	background:url(../img/contextmenu/menuBG.png);
+	background-position:bottom right;
+	border-radius:4px;
+	padding:10px;
+	color:#FFF;
+	font-family: 'Titillium Web', Arial, Helvetica, sans-serif;
+}
+
+.contextMenuWrapper .contextMenuFooter {
+	height:19px;
+	width:19px;
+	background:url(../img/contextmenu/menuArrow.png);
+	position:relative;
+	margin-top:-4px;
+	margin-left:256px;
+	border-top-left-radius:8px;
+	border-top-right-radius:8px;
+}

@@ -77,8 +77,8 @@ $.when(
 	
 	// INITIALIZE HUD!!! //
 	///////////////////////
-	//var CHATBOX = new MEUI.ChatBox();
-	// var testDialog1 = new MEUI.Dialog();
+	var CHATBOX = new MEUI.ChatBox();
+	var testDialog1 = new MEUI.TestGlass();
 	// var testDialog2 = new MEUI.DialogChat();
 	// var dialog = ['<p>Lorem ipsum dolar sit amet.</p>', '<p>This is the way to the end of the road.</p>', '<p>Join me, and together we can rule the galaxy as father and son!</p>']
 	// 	

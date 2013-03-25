@@ -29,6 +29,7 @@ ME3D.Avatar = function (props) {
 	this.location = this.options.location;
 	this.camera = this.options.camera;
 	this.tooltip = false;
+	this.menu = false;
 	
 	this.presence = new THREE.Object3D(); // container for the body
 	this.sparkles = new ME3D.Emitter();
@@ -150,7 +151,8 @@ ME3D.Avatar = function (props) {
 	this.delayBindings = function() {
 		var self = this;
 		var t = setTimeout(function(){
-			self.doMouseEnter = self.doMouseEnterDelayed;
+			//self.doMouseEnter = self.doMouseEnterDelayed;
+			//self.doMouseLeave = self.doMouseLeaveDelayed;
 		},2000)
 	}
 
@@ -186,7 +188,16 @@ ME3D.Avatar = function (props) {
 	} //// end tick ////
 	
 	this.doClick = function(mouse) {
-		alert('STAHPIT!!! ' + mouse.x + ',' + mouse.y);
+		//alert('STAHPIT!!! ' + mouse.x + ',' + mouse.y);
+		var self = this.parent;
+		if(!self.menu) {
+			var props = { xpos: mouse.x, ypos: mouse.y-30};
+			self.menu = new MEUI.ContextMenu(props);
+		} else {
+			self.menu.updatePos(mouse.x-240,mouse.y-200);
+			self.menu.fadeIn();
+		}
+		
 	};
 	
 	this.doMouseEnterDelayed = function(mouse) {
@@ -208,7 +219,7 @@ ME3D.Avatar = function (props) {
 		
 	};
 	
-	this.doMouseLeave = function(mouse) {
+	this.doMouseLeaveDelayed = function(mouse) {
 		var self = this.parent;
 		if (self.tooltip) self.tooltip.fadeOut();		
 	};
