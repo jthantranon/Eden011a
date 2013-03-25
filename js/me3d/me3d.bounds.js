@@ -32,8 +32,8 @@ ME3D.Bounds = function () {
 };
 
 
-ME3D.Physics.prototype = {
-	constructor: ME3D.Physics,
+ME3D.Bounds.prototype = {
+	constructor: ME3D.Bounds,
 	
 	log: function() {
 		alert(this.worldName);

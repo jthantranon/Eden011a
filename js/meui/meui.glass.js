@@ -215,6 +215,10 @@ MEUI.Glass.prototype = {
 	
 	opaque: function() {
 		this.$domctx.css({'opacity':1});
+	},
+	
+	clearEvents: function() {
+		this.$domctx.clearQueue();
 	}		
 	
 };

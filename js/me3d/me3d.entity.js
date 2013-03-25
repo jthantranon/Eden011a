@@ -8,17 +8,22 @@
 
 ME3D.Entity = function() {
 	
-	//THREE.Mesh.call(this);
-    //UIControls.UIControl.call(this);
+	this.tick = function(){};
+	
+	this.doClick = function() {
+			console.log("object clicked");
+	}
+	
+	this.doMouseEnter = function() {
+			console.log("mouse inside");
+	}
 		
-	var self = this;
+	this.doMouseLeave = function() {
+			console.log("mouse left");
+	}
+	//this.destroy = function(){ ME3D.Ticker.remove(this); };
 	
 	this.init = function(){ ME3D.Ticker.add(this); };
-	this.tick = function(){};
-	this.click = function(event){ console.log(this) };
-	this.mouseIn = function(){ console.log(this) };
-	this.mouseOut = function(){ console.log(this) };
-	//this.destroy = function(){ ME3D.Ticker.remove(this); };
 	
 };
 

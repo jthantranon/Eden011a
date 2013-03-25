@@ -1,40 +1,51 @@
 /**
  * @author C.Christopher Kovach / http://www.cckovach.com
- * @version 0.1.1
+ * @version 0.2.0
  * Currently creates a generic avatar model and effects for MetaEden.
  */
 
 // TODO: default parameters and arguments
 // TODO: evolve avatar design
 
-ME3D.Avatar = function (location) {
+
+ME3D.Avatar = function (props) {
 	
+	var self = this;
+
+	THREE.Object3D.call(this);		
 	ME3D.Entity.call(this);
-	this.init();
+	
+	// DEFAULT PROPERTIES //
+	////////////////////////
+	this.options = {
+		location: new THREE.Vector3(0,0,0),
+	}
+	
+	if (typeof props !== 'undefined') MEUI.merge(this.options, props);
+	
+	
+	// OBJECT PROPERTIES //
+	///////////////////////
+	this.location = this.options.location;
+	this.camera = this.options.camera;
+	this.tooltip = false;
+	
+	this.presence = new THREE.Object3D(); // container for the body
 	this.sparkles = new ME3D.Emitter();
-	
-	if(typeof location === 'undefined') {
-		this.location = new THREE.Vector3(0,0,0);		
-	} else { this.location = location; }
-	
-		
-	// default properties
-	this.avatar = new THREE.Object3D();
-	this.body = new THREE.Object3D();
-	this.body.useQuaternion = true;
 	this.glowie = new THREE.ParticleSystem();
 	
-	this.updateRate = 30;
-	this.lastUpdate = 1;
-		
-	// body parts geometry
+	
+	// BODY/PRESENCE MESH //
+	////////////////////////
 	var assets = ME3D.Preloader.assets;
 	var head, cape, aura, globe, torso;
+	
 	head = new THREE.Mesh(assets.meAvatarHead.geometry, assets.meAvatarHead.materials[0]);
 	cape = new THREE.Mesh(assets.meAvatarCape.geometry, assets.meAvatarCape.materials[0]);
 	aura = new THREE.Mesh(assets.meAvatarAura.geometry, assets.meAvatarAura.materials[0]);
 	torso = new THREE.Mesh(assets.meAvatarBody.geometry, assets.meAvatarBody.materials[0]);
 	innerglobe = new THREE.Mesh(assets.meAvatarGlobe.geometry, assets.meAvatarGlobe.materials[0]);
+	
 	var outerglobeMat = new THREE.MeshLambertMaterial();
 	outerglobeMat = assets.meAvatarGlobe.materials[0].clone();
 	outerglobe = new THREE.Mesh(assets.meAvatarGlobe.geometry, outerglobeMat);
@@ -46,18 +57,16 @@ ME3D.Avatar = function (location) {
 	innerglobe.geometry.computeBoundingBox(); innerglobe.geometry.computeBoundingSphere();
 	outerglobe.geometry.computeBoundingBox(); outerglobe.geometry.computeBoundingSphere();
 		
-	
 	innerglobe.material.transparent  = true;
 	innerglobe.material.opacity  = .3;
 	innerglobe.material.blending  = THREE.AdditiveBlending;
 	innerglobe.material.shading  = THREE.FlatShading;
 	innerglobe.material.depthTest  = false;
 	
-		
 	outerglobe.material.transparent = true;
 	outerglobe.material.wireframe = true;
 	outerglobe.material.opacity = .05;
-	outerglobe.material.wireframeLinewidth = .5
+	outerglobe.material.wireframeLinewidth = .25
 	
 	aura.material.transparent  = true;
 	aura.material.opacity  = .3;
@@ -73,26 +82,16 @@ ME3D.Avatar = function (location) {
 	outerglobe.scale.set(.8,.8,.8);
 	aura.scale.set(.9,.9,.9);
 		
-	this.body.add(head);
-	this.body.add(cape);
-	this.body.add(aura);
-	this.body.add(torso);
-	this.body.add(innerglobe);
-	this.body.add(outerglobe);
-	this.avatar.position.x = this.location.x;
-	this.avatar.position.y = this.location.y;
-	this.avatar.position.z = this.location.z;
+	this.presence.add(head);
+	this.presence.add(cape);
+	this.presence.add(aura);
+	this.presence.add(torso);
+	this.presence.add(innerglobe);
+	this.presence.add(outerglobe);
 	
 	
-	this.cameraTarget = new THREE.Mesh(new THREE.CubeGeometry(.05,.05,.05), new THREE.MeshNormalMaterial());
-	this.cameraActual = new THREE.Mesh(new THREE.CubeGeometry(.025,.025,.025), new THREE.MeshNormalMaterial());
-	this.cameraTarget.position.set(2,2,2);
-	this.cameraActual.position.set(4,3,3);
-	this.cameraTarget.name = 'cameraTarget';
-	this.cameraActual.name = 'cameraActual';
-
-	
-	// create the particle variables
+	// BODY/PRESENCE PARTICLES //
+	/////////////////////////////
     var particles = new THREE.Geometry();
     var pMaterial = new THREE.ParticleBasicMaterial({
     	opacity: .75,
@@ -104,7 +103,7 @@ ME3D.Avatar = function (location) {
     	depthWrite: true, depthTest: false
    	});
 
-	var particle = this.body.position;
+	var particle = this.presence.position;
 	
 	particles.vertices.push(particle);
 	
@@ -114,73 +113,61 @@ ME3D.Avatar = function (location) {
 
 	this.glowie.sortParticles = true;
 	
-	//this.emitter
+	this.presence.add(this.glowie);
+	// this.avatar.add(this.sparkles.getSystem());
 	
-	this.avatar.add(this.body);
-	this.avatar.add(this.glowie);
-	this.avatar.add(this.sparkles.getSystem());
-	this.avatar.add(this.cameraTarget);
-	this.avatar.add(this.cameraActual);
+	// CAMERA HELPERS //
+	////////////////////
+	this.cameraTarget = new THREE.Mesh(new THREE.CubeGeometry(.05,.05,.05), new THREE.MeshNormalMaterial());
+	this.cameraActual = new THREE.Mesh(new THREE.CubeGeometry(.025,.025,.025), new THREE.MeshNormalMaterial());
+	this.cameraTarget.position.set(2,2,2);
+	this.cameraActual.position.set(4,3,3);
+	this.cameraTarget.visible = false;
+	this.cameraActual.visible = false;
+	this.cameraTarget.name = 'cameraTarget';
+	this.cameraActual.name = 'cameraActual';
 	
-	this.avatar.dirtyVertices = true;
+	this.add(this.cameraTarget);
+	this.add(this.cameraActual);
 	
-	this.spotDir = 'up';
-	this.spotDirSide = 'left';
-	this.globeGlow = false;
-	
-	this.avatar.useQuaternion = true;
+	// PRIVATE METHODS //
+	/////////////////////
+	this.toScreenXY = function(position, camera, jqdiv) {
+		// converts 3D position to screen coords	
+		var width = jqdiv.width(), height = jqdiv.height();
+		var widthHalf = width / 2, heightHalf = height / 2;
+		var position = position, camera = camera;
 		
-	// function getBoundsMesh() {
-		// return this.body;
-	// }	
+		var projector = new THREE.Projector();
+		var vector = projector.projectVector( position, camera );
+		
+		vector.x = ( vector.x * widthHalf ) + widthHalf;
+		vector.y = - ( vector.y * heightHalf ) + heightHalf;
+		
+	    return { x: vector.x, y: vector.y }; 	
+	};
 	
-	//return this.avatar;
-	//ME3D.registerTick(this);
-	
-	//console.log(this.glowie);
+	this.delayBindings = function() {
+		var self = this;
+		var t = setTimeout(function(){
+			self.doMouseEnter = self.doMouseEnterDelayed;
+		},2000)
+	}
+
+
+	// EVENT BINDINGS/HANDLERS //
+	/////////////////////////////
 	this.tick = function(delta) {
+		
 		var spot = this.glowie.position;
 		this.sparkles.update(delta);
-				
-		if(this.spotDir == 'up') {
-			if(spot.y < .02) {
-				spot.y += Math.random()*.0001;
-			} else {
-				this.spotDir = 'down';
-			}			
-		}
-		
-		if(this.spotDir == 'down') {
-			if(spot.y > -.01) {
-				spot.y -= Math.random()*.0001;
-			} else {
-				this.spotDir = 'up';
-			}
-		}
-		
-		if(this.spotDir == 'left') {
-			if(spot.x < .03) {
-				spot.x += Math.random()*.0001;
-			} else {
-				this.spotDir = 'right';
-			}			
-		}
-		
-		if(this.spotDir == 'right') {
-			if(spot.x > -.03) {
-				spot.x -= Math.random()*.0001;
-			} else {
-				this.spotDir = 'left';
-			}
-		}
-		
-		
+					
 		// innerglobe.material.opacity  = .3;
 		if(!this.globeGlow) {
 			if(innerglobe.material.opacity  > .1) {
-				innerglobe.material.opacity -= .001;
-				outerglobe.material.opacity -= .001;
-				aura.material.opacity -= .001;
+				innerglobe.material.opacity -= .0005;
+				outerglobe.material.opacity -= .0005;
+				aura.material.opacity -= .0005;
 			} else {
 				this.globeGlow = true;
 			}
@@ -188,9 +175,9 @@ ME3D.Avatar = function (location) {
 		
 		if(this.globeGlow) {
 			if(innerglobe.material.opacity  < .4) {
-				innerglobe.material.opacity += .001;
-				outerglobe.material.opacity += .001;
-				aura.material.opacity += .001;
+				innerglobe.material.opacity += .0005;
+				outerglobe.material.opacity += .0005;
+				aura.material.opacity += .0005;
 			} else {
 				this.globeGlow = false;
 			}
@@ -198,9 +185,49 @@ ME3D.Avatar = function (location) {
 						
 	} //// end tick ////
 	
-	this.onClick = function() {
-		alert('ohshii! you clicked!!');
-	}
+	this.doClick = function(mouse) {
+		alert('STAHPIT!!! ' + mouse.x + ',' + mouse.y);
+	};
+	
+	this.doMouseEnterDelayed = function(mouse) {
+		var self = this.parent;
+		
+		var checkPOS = self.position.clone();	
+		var mousePOS = (self.toScreenXY(checkPOS, self.camera, $('body')));
+				
+		if (!self.tooltip) {
+			var props = { xpos: mousePOS.x-100, ypos: mousePOS.y-100,
+						  message: 'Tooltip for the win!' };
+						   
+			self.tooltip = new MEUI.Tooltip(props); 
+		} else {
+			self.tooltip.fadeIn();
+		}
+		
+		//self.tooltip.updatePos(mousePOS.x-100,mousePOS.y-100);
+		
+	};
+	
+	this.doMouseLeave = function(mouse) {
+		var self = this.parent;
+		if (self.tooltip) self.tooltip.fadeOut();		
+	};
+		
+		
+	// INITIALIZE //
+	////////////////
+	this.init();
+	this.delayBindings();
+	
+	this.useQuaternion = true;
+	this.presence.dirtyVertices = true;
+	
+	//this.position.set(this.location);
+	this.presence.scale.set(.02,.02,.02);
+	this.position = this.location;
+	this.add(this.presence);
+	
+	return this;
 
 };
 
@@ -209,55 +236,35 @@ ME3D.Avatar = function (location) {
  * API
  */
 
-ME3D.Avatar.prototype = {
-	constructor: ME3D.Physics,
+ME3D.extend(THREE.Object3D, ME3D.Avatar);
+
+ME3D.Avatar.prototype.constructor = ME3D.Avatar;
+
+ME3D.Avatar.prototype.getBoundingBox = function() {
 	
-	getAvatar: function() {
-		return this.avatar;
-	},
+	var bounds = new THREE.Geometry();
+	var models = this.presence.getDescendants();
 	
-	getBoundsMesh: function() {
-		//this.body.scale.set(.02,.02,.02);
-		return new THREE.Mesh(new THREE.CubeGeometry(1,1,1));//this.body;
-	},
+	for(var i=0,j=models.length; i<j; i++){
+		THREE.GeometryUtils.merge(bounds, models[i].geometry);
+	};
 	
-	bindCamera: function(camera) {
-		
-		var newPosition = this.avatar.getChildPosition('cameraActual');
-		camera.position.set(newPosition);
-	},
 	
-	getCameraPosition: function(camera) {
-		
-		return this.avatar.getChildPosition('cameraActual');
-	},
-	
-	getPosition: function() {
-		if (this.lastUpdate == this.updateRate) {
-			this.lastUpdate = 1;
-			return this.avatar.position;
-		} else {
-			this.lastUpdate++;
-		}
-	},
-	
-	setPosition: function(newPosition) {
-		this.avatar.position.set(newPosition);
-	},
-	
-	// tick: function(delta) {
-		// //this.avatar.glowie.position.y += .1;
-		// console.log('wtf');
-	// }
+	bounds.computeBoundingBox();
+	bounds.boundingBox.max.multiplyScalar(.02,.02,.02)
+	console.log(bounds.boundingBox);
+	return bounds.boundingBox.max;
+
 };
+
 
 /*
  * ASSETS
  */
+
 
 ME3D.Preloader.add('models/me_avatar_fox_aura.json', 'meAvatarAura');
 ME3D.Preloader.add('models/me_avatar_fox_head.json', 'meAvatarHead');
 ME3D.Preloader.add('models/me_avatar_fox_body.json', 'meAvatarBody');
 ME3D.Preloader.add('models/me_avatar_fox_cape.json', 'meAvatarCape');
 ME3D.Preloader.add('models/me_avatar_fox_globe.json', 'meAvatarGlobe');
-

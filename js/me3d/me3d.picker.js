@@ -1,24 +1,127 @@
 /**
  * @author C.Christopher Kovach / http://www.cckovach.com
- * @version 0.1.4
- * Makes buildings!!
+ * @version 0.2.0
+ * Tests the scene for object intersection and triggers
+ * corresponding events;
  */
 
 ME3D.Picker = function (scene, camera) {
 	
+	var self = this;
+	
+	// object properties //
+	///////////////////////
+	this.intersectList = [];
+		
+	
+	// private properties //
+	//////////////////////// 
 	var camera = camera;
 	var scene = scene;
 	
-	// MOUSEOVER PICKING!!! //
-	//////////////////////////
-	var mouse = { x: 0, y: 0 }, INTERSECTED, INTERSECTEDBUILDING;
+	var mouse = { x: 0, y: 0 }, INTERSECTED;
+	var rawMouse = { x: 0, y: 0 };
 	
 	var isClicked=false;
-
-
 	
-	var projector = new THREE.Projector();
+	var projector = new THREE.Projector();	
 	
+	// internal methods //
+	/////////////////////
+	this.resolve = function() {
+		
+		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+		projector.unprojectVector( vector, camera );
+	
+		var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+	
+		var scenegroups = [];
+				
+		for(var i=0,j=self.intersectList.length;i<j;i++) {
+			
+			scenegroups.push(self.intersectList[i]);
+			 
+			var children = self.intersectList[i].getDescendants();
+			
+			for(var k=0,l=children.length;k<l;k++) {
+				if(self.intersectList[i].hasOwnProperty('resolveClick')) {
+					if(!children[k].hasOwnProperty('resolveClick')) {
+						children[k].childClick = 1;
+						children[k].doClick = self.intersectList[i].doClick;
+					}
+				}
+				
+				if(self.intersectList[i].hasOwnProperty('resolveHover')) {
+					if(!children[k].hasOwnProperty('resolveHover')) {
+						children[k].childHover = 1;
+						children[k].doMouseEnter = self.intersectList[i].doMouseEnter;
+						children[k].doMouseLeave = self.intersectList[i].doMouseLeave;
+					}
+				}  
+				
+				scenegroups.push(children[k]);
+			}
+		
+		}
+				
+		var intersects = raycaster.intersectObjects( scenegroups );
+		
+		if ( intersects.length > 0 ) {
+			
+			// if its not the same, clear the old one and update the new one		
+			if ( INTERSECTED != intersects[ 0 ].object ) {
+				if ( INTERSECTED ) INTERSECTED.material.opacity = .25;
+		
+				INTERSECTED = intersects[ 0 ].object;
+				INTERSECTED.material.opacity = .75;
+				if(INTERSECTED.hasOwnProperty('resolveHover')) INTERSECTED.doMouseEnter(rawMouse);
+				if(INTERSECTED.hasOwnProperty('childHover')) INTERSECTED.parent.doMouseEnter(rawMouse);	
+				
+				
+				if(isClicked) { 
+					//console.debug(INTERSECTED.data.coords);
+					//ME3D.Ticker.triggerClick(INTERSECTED.parent);
+					console.log(INTERSECTED);
+					if(INTERSECTED.hasOwnProperty('resolveClick')) INTERSECTED.doClick(rawMouse);
+					if(INTERSECTED.hasOwnProperty('childClick')) INTERSECTED.parent.doClick(rawMouse);					
+					
+				}
+				isClicked=false;
+			// its the same or a new item
+			} else { 
+				INTERSECTED = intersects[ 0 ].object;
+				INTERSECTED.material.opacity = .75;
+				if(INTERSECTED.hasOwnProperty('resolveHover')) INTERSECTED.doMouseEnter(rawMouse);
+				if(INTERSECTED.hasOwnProperty('childHover')) INTERSECTED.parent.doMouseEnter(rawMouse);	
+				
+				//ME3D.Ticker.triggerHover(INTERSECTED.parent);
+				
+				if(isClicked) { 
+					//console.debug(INTERSECTED.data.coords);
+					//ME3D.Ticker.triggerClick(INTERSECTED.parent);
+					console.log(INTERSECTED);
+					if(INTERSECTED.hasOwnProperty('resolveClick')) INTERSECTED.doClick(rawMouse);
+					if(INTERSECTED.hasOwnProperty('childClick')) INTERSECTED.parent.doClick(rawMouse);		
+				}
+				isClicked=false;
+			}
+		// nothing selected so set the currently lit one to normal
+		} else {
+		
+			if ( INTERSECTED ) {
+				INTERSECTED.material.opacity = .25;
+				if(INTERSECTED.hasOwnProperty('resolveHover')) INTERSECTED.doMouseLeave(rawMouse);
+				if(INTERSECTED.hasOwnProperty('childHover')) INTERSECTED.parent.doMouseLeave(rawMouse);
+			}	
+		
+			INTERSECTED = null;
+		
+		}
+		
+	}
+	
+	// EVENT BINDINGS & HANDLERS //
+	///////////////////////////////
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	
 	
@@ -30,126 +133,58 @@ ME3D.Picker = function (scene, camera) {
 		isClicked=false;
 	}
 	
-	
-	
 	function onDocumentMouseMove( event ) {
 	
 		event.preventDefault();
 	
 		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-	
-	}
-	
-	this.pick = function() {
-		// find intersections
-		
-		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
-		projector.unprojectVector( vector, camera );
-	
-		var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-	
-		var scenegroups = ME3D.Ticker.getPickList();//scene.getDescendants();//.getChildByName('grid');
-		
-		var intersects = raycaster.intersectObjects( scenegroups.getDescendants() );
-		
-		if ( intersects.length > 0 ) {
-			
-			// if its not the same, clear the old one and update the new one		
-			if ( INTERSECTED != intersects[ 0 ].object ) {
-				if ( INTERSECTED ) INTERSECTED.material.opacity = .25;
-		
-				INTERSECTED = intersects[ 0 ].object;
-				INTERSECTED.material.opacity = .75;
-				if(isClicked) { 
-					//console.debug(INTERSECTED.data.coords);
-					//ME3D.Ticker.triggerClick(INTERSECTED.parent);
-					console.log(INTERSECTED);
-					if(INTERSECTED.hasOwnProperty('onClick')) INTERSECTED.onClick();					
-					
-				}
-				isClicked=false;
-			// its the same or a new item
-			} else { 
-				INTERSECTED = intersects[ 0 ].object;
-				INTERSECTED.material.opacity = .75;
-				
-				//ME3D.Ticker.triggerHover(INTERSECTED.parent);
-				
-				if(isClicked) { 
-					//console.debug(INTERSECTED.data.coords);
-					//ME3D.Ticker.triggerClick(INTERSECTED.parent);
-					console.log(INTERSECTED);
-					if(INTERSECTED.hasOwnProperty('onClick')) INTERSECTED.onClick();		
-				}
-				isClicked=false;
-			}
-		// nothing selected so set the currently lit one to normal
-		} else {
-		
-			if ( INTERSECTED ) INTERSECTED.material.opacity = .25;
-		
-			INTERSECTED = null;
-		
-		}
-	}
-	
-	
-	this.pickBuilding = function() {
-		// find intersections
-		
-		var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
-		projector.unprojectVector( vector, camera );
-	
-		var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-	
-		var scenegroups = scene.getChildByName('buildings');
-		//console.log(typeof scenegroups);
-		
-		if (typeof scenegroups == 'undefined') {
-			return false;
-		} 
-		
-			var intersects = raycaster.intersectObjects( scenegroups.children, true);
-			
-			
-			if ( intersects.length > 0 ) {
-				
-				
-				// if its not the same, clear the old one and update the new one		
-				if ( INTERSECTEDBUILDING != intersects[ 0 ].object ) {
-					if ( INTERSECTEDBUILDING ) INTERSECTEDBUILDING.material.opacity = .85;
-			
-					INTERSECTEDBUILDING = intersects[ 0 ].object;
-					INTERSECTEDBUILDING.material.opacity = 1;
-					if(isClicked) console.debug('building');
-					isClicked=false;
-				// its the same or a new item
-				} else { 
-					INTERSECTEDBUILDING = intersects[ 0 ].object;
-					INTERSECTEDBUILDING.material.opacity = 1;
-					if(isClicked) console.debug('building');
-					isClicked=false;
-				}
-			// nothing selected so set the currently lit one to normal
-			} else {
-			
-				if ( INTERSECTEDBUILDING ) INTERSECTEDBUILDING.material.opacity = .85;
-			
-				INTERSECTEDBUILDING = null;
-			
-			}
+		rawMouse.x = event.clientX;
+		rawMouse.y = event.clientY;
 		
 	}
 	
 	return this;
 };
 
+
+/*
+ * API
+ */
+
 ME3D.Picker.prototype = {
 	constructor: ME3D.Picker,
 	
 	log: function() {
 		console.log(this);
-	}
+	},
+	
+	addClick: function(entity) {
+		entity.resolveClick = 1;
+		entity.resolveHover = 1;
+		//this.clickList.push(entity);
+		this.intersectList.push(entity);
+		
+		// if this is already in the list
+		// don't put it in;
+	},
+	
+	addHover: function(entity) {
+		entity.resolveHover = 1;
+		//this.clickList.push(entity);
+		this.intersectList.push(entity);
+		
+		// if this is already in the list
+		// don't put it in;
+	},
+	
+	removeClick: function(entity) {
+		
+	},
+	
+	removeHover: function(entity) {
+		
+	},
+	
 }
 

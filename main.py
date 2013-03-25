@@ -52,6 +52,7 @@ class MainPage(webapp2.RequestHandler):
         dialog = jinja_environment.get_template('dialog.html')
         dialogchat = jinja_environment.get_template('dialogchat.html')
         dialogpaged = jinja_environment.get_template('dialogpaged.html')
+        tooltip = jinja_environment.get_template('tooltip.html')
         
         
         ## render header
@@ -65,6 +66,7 @@ class MainPage(webapp2.RequestHandler):
         self.response.out.write(dialog.render(template_values))
         self.response.out.write(dialogchat.render(template_values))
         self.response.out.write(dialogpaged.render(template_values))
+        self.response.out.write(tooltip.render(template_values))
         
         ## Footer
         self.response.out.write(footer.render(template_values))

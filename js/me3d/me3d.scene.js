@@ -11,16 +11,11 @@ ME3D.Scene = function () {
 	
 	var self = this;
 	
-	// default scene properties
-	///////////////////////////////////
+	// INTERNAL PROPERTIES //
+	/////////////////////////
 	var width = $(window).width(), 
-		height = $(window).height(),
-		clock = new THREE.Clock();
+		height = $(window).height();
 		
-		
-	// var container = document.createElement( 'div' );
-	// $(body).append( container );	
-	
 	
 	// default camera attributes
 	///////////////////////////////////

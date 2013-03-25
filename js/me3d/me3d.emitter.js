@@ -1,6 +1,6 @@
 /**
  * @author C.Christopher Kovach / http://www.cckovach.com
- * @version 0.1.0
+ * @version 0.1.1
  * Currently creates a generic particle emitter and effects for MetaEden.
  */
 
@@ -30,9 +30,7 @@ ME3D.Emitter = function () {
    		var pX = Math.random() * .300 - .150,
    			pY = Math.random() * .300 - .150,
    			pZ = Math.random() * .300 - .150,
-   			particle = new THREE.Vertex(
-	   			new THREE.Vector3(pX,pY,pZ));
-   		//console.log(this.particleGeo.vertices);
+   			particle = new THREE.Vector3(pX,pY,pZ);
    		this.particleGeo.vertices.push(particle);
    		
 	 };

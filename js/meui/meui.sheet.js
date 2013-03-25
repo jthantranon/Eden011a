@@ -174,19 +174,27 @@ MEUI.Sheet.prototype = {
 	},
 	
 	hide: function() {
-		$('#'+this.id).hide();
+		var self = this;
+		var $ctx = self.$domctx;
+		$ctx.hide();
 	},
 
 	show: function() {
-		$('#'+this.id).show();
+		var self = this;
+		var $ctx = self.$domctx;
+		$ctx.show();
 	},
 	
 	fadeIn: function() {
-		$('#'+this.id).fadeIn();
+		var self = this;
+		var $ctx = self.$domctx;
+		$ctx.fadeIn();
 	},
 	
-	fadeOut: function() {
-		$('#'+this.id).fadeOut();
+	fadeOut: function(speed) {
+		var self = this;
+		var $ctx = self.$domctx;
+		$ctx.fadeOut(speed,function(){ $ctx.clearQueue() });
 	},
 	
 	minimize: function() {
@@ -208,7 +216,11 @@ MEUI.Sheet.prototype = {
 	
 	opaque: function() {
 		this.$domctx.css({'opacity':1});
-	}		
+	},
+	
+	updatePos: function(x,y) {
+		this.$domctx.css({"left":x,"top":y});
+	}	
 	
 };
 

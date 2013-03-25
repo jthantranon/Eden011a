@@ -45,8 +45,7 @@ ME3D.Grid = function(unitSize, padding, totalUnits) {
 			unitMesh.position.x = unitXPos;
 			unitMesh.position.y = unitYPos;
 			unitMesh.position.z = unitZPos;
-			unitMesh.tick = function(){};
-			ME3D.Ticker.add(unitMesh);
+			
 			this.gridObject.add(unitMesh);
 			
 			unitXPos += unitSize + padding;
