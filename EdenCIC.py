@@ -75,7 +75,7 @@ class WishingWell(webapp2.RequestHandler):
             else:
                 grant = wish.fAllPixels()
         else:
-            pass
+            grant = 'wish not granted'
         #cpix.grant = wish#['name']
         #cpix.anothertest = 'anothertest'
         self.response.out.write(jsonify(grant))
