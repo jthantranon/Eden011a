@@ -69,11 +69,23 @@ class WishingWell(webapp2.RequestHandler):
                     pass
             else:
                 pass
+        elif name == 'fAllPixelIDs':
+            if wishargs:
+                grant = wish.fAllPixelIDs(wishargs)
+            else:
+                grant = wish.fAllPixels()
         else:
             pass
         #cpix.grant = wish#['name']
         #cpix.anothertest = 'anothertest'
         self.response.out.write(jsonify(grant))
+
+
+class Test(webapp2.RequestHandler):
+    def get(self):
+        theout = wish.fAllPixelIDs('loc')
+        wish.Broadcast(theout['Pixel8'])
+        self.response.out.write(theout)
 
 #class Immigration(webapp2.RequestHandler):
 #    def get(self):
@@ -105,6 +117,7 @@ app = webapp2.WSGIApplication([
                                ('/cic/asession', aSession),
                                ('/cic/eden', Eden),
                                ('/cic/wishingwell', WishingWell),
+                               ('/cic/test', Test),
 #                               ('/cic/jsonwish', JSONWish),
 #                               ('/cic/pulse', PULSE),
                                ],

@@ -10,17 +10,21 @@ from EdenModels import *
 import EdenHeart as heart
 
 
-
-
 def fAllPixels():
-    q = []
-    
     pixels = Pixel.query().fetch()
-    
-    for pixel in pixels:
-        q.append(str(pixel.xID))
-    allPixelKIDs = q
-    return allPixelKIDs    
+    return pixels
+
+def fAllPixelIDs(args='none'):
+    pixels = fAllPixels()
+    if args == 'loc':
+        q = {}
+        for pixel in pixels:
+            q[pixel.kid] = pixel.loc.to_dict()
+    else:
+        q = []
+        for pixel in pixels:
+            q.append(str(pixel.xID))
+    return q    
 
 class Actualize():
     @classmethod
@@ -34,6 +38,7 @@ class Actualize():
             pixel = Pixel(id=newID,xID = xID)
             pixel.kid = 'Pixel'+newID
             pixel.name = pixel.kid
+            pixel.loc = {'x':0,'y':0,'z':0}
             pixel.put()
             return pixel
         else:
@@ -50,7 +55,7 @@ class PulseRouter():
         if self.type == 'chat':
             
             if self.content['scope'] == 'global':
-                allPixels = fAllPixels()
+                allPixels = fAllPixelIDs()
                 for pixel in allPixels:
                     channel.send_message(pixel,json.dumps(self.content))
                     #channel.send_message(apixel, self.content)
@@ -69,11 +74,14 @@ def aChan():
     channel.send_message(xID,json.dumps('42'))
     return token
 
+def Broadcast(msg):
+    allPixels = fAllPixelIDs()
+    for pixel in allPixels:
+        channel.send_message(pixel,json.dumps(msg))
+
 class aSession():
     def __init__(self):
         cpix = myPixel().to_dict()
         self.Chan = aChan()
         self.cPixel = cpix
         self.pulse = heart.Pulse(heart.Chat('global', cpix, 'Welcome!').__dict__).__dict__
-    
-
