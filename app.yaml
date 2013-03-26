@@ -56,9 +56,6 @@ handlers:
   
 - url: /cic.*
   script: EdenCIC.app
-  
-- url: /app.*
-  script: utils.app
     
 - url: /.*
   script: main.app

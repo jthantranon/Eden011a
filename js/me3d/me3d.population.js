@@ -6,9 +6,12 @@
 
 // TODO: default parameters and arguments
 
-ME3D.Population = function () {
+ME3D.Population = function (scene) {
 	
 	this.avatarList = [];
+	this.refreshList = [];
+	this.census = [];
+	this.scene = scene;
 
 };
 
@@ -66,6 +69,17 @@ ME3D.Population.prototype = {
 		} else if(index === this.avatarList.length -1) {
 			this.avatarList.pop();
 		}
+	},
+	
+	refresh: function(data) {
+		var self = this;
+		for(var i=0,j=data.length; i<j; i++){
+			var avatar = self.scene.getChildByName(data[i].kid);
+			var location = data[i].location;
+			var heading = data[i].heading;
+			var velocity = data[i].velocity;
+			avatar.updateLoc(location, heading);
+		};
 	}
 	
 };

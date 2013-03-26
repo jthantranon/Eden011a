@@ -268,6 +268,14 @@ ME3D.Avatar.prototype.getBoundingBox = function() {
 
 };
 
+ME3D.Avatar.prototype.updateLoc = function(location, heading, velocity) {
+	
+	this.location = location;
+	//this.heading = heading;
+	//this.velocity = velocity;
+	
+};
+
 
 /*
  * ASSETS
