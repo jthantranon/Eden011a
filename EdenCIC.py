@@ -85,6 +85,7 @@ class Test(webapp2.RequestHandler):
     def get(self):
         theout = wish.fAllPixelIDs('loc')
         wish.Broadcast(theout[0])
+        wish.Actualize.Sprite()
         self.response.out.write(json.dumps(theout))
         #self.response.out.write(theout)
 

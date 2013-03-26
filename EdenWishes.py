@@ -7,6 +7,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.api import channel
 from EdenModels import *
+from random import randrange
 import EdenHeart as heart
 
 
@@ -30,7 +31,7 @@ def fAllPixelIDs(args='none'):
 class Actualize():
     @classmethod
     def Pixel(self):
-        xID =  users.get_current_user().user_id() #might have to move this into private scopes? may have sesh persist problems
+        xID =  users.get_current_user().user_id()
         source = ndb.Key('Crystal','1').get()
         if source:
             source.uCount += 1
@@ -44,6 +45,23 @@ class Actualize():
             return pixel
         else:
             return source
+    @classmethod
+    def Sprite(self):
+        xID =  'Sprite'
+        source = ndb.Key('Crystal','1').get()
+        if source:
+            source.uCount += 1
+            source.put()
+            newID = str(source.uCount)
+            pixel = Pixel(id=newID,xID = xID+newID)
+            pixel.kid = 'Sprite'+newID
+            pixel.name = pixel.kid
+            pixel.loc = {'x':randrange(-10,10),'y':randrange(-10,10),'z':randrange(-10,10)}
+            pixel.put()
+            return pixel
+        else:
+            return source
+        
 
 class PulseRouter():
     type = ''
