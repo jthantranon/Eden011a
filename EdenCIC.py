@@ -84,7 +84,7 @@ class WishingWell(webapp2.RequestHandler):
 class Test(webapp2.RequestHandler):
     def get(self):
         theout = wish.fAllPixelIDs('loc')
-        wish.Broadcast(theout['Pixel8'])
+        wish.Broadcast(theout[0])
         self.response.out.write(theout)
 
 #class Immigration(webapp2.RequestHandler):

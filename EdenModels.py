@@ -10,3 +10,12 @@ class Pixel(ndb.Expando,Source):
 
 class Crystal(ndb.Expando,Source):
     kind = 'Crystal'
+    
+class Pulse(ndb.Model):
+    type = ndb.StringProperty()
+    origin = ndb.StringProperty()
+
+class PulseLoc(Pulse):
+    xloc = ndb.IntegerProperty()
+    yloc = ndb.IntegerProperty()
+    zloc = ndb.IntegerProperty()

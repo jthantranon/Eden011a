@@ -17,9 +17,10 @@ def fAllPixels():
 def fAllPixelIDs(args='none'):
     pixels = fAllPixels()
     if args == 'loc':
-        q = {}
+        q = []
         for pixel in pixels:
-            q[pixel.kid] = pixel.loc.to_dict()
+            pulseloc = PulseLoc(type='pulseloc',origin=pixel.kid,xloc=pixel.loc.x,yloc=pixel.loc.y,zloc=pixel.loc.z)
+            q.append(pulseloc.to_dict())
     else:
         q = []
         for pixel in pixels:
