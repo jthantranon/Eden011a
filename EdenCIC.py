@@ -21,7 +21,7 @@ import json
 #cpix = prox.cPixel()
 
 def jsonify(data):
-    if isinstance(data, str):
+    if isinstance(data, str) or isinstance(data, list):
         return json.dumps(data)
     else:
         try:
@@ -85,7 +85,8 @@ class Test(webapp2.RequestHandler):
     def get(self):
         theout = wish.fAllPixelIDs('loc')
         wish.Broadcast(theout[0])
-        self.response.out.write(theout)
+        self.response.out.write(json.dumps(theout))
+        #self.response.out.write(theout)
 
 #class Immigration(webapp2.RequestHandler):
 #    def get(self):
