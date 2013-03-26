@@ -28,6 +28,14 @@ def fAllPixelIDs(args='none'):
             q.append(str(pixel.xID))
     return q    
 
+def randPixelLoc():
+    pixels = fAllPixels()
+    for pixel in pixels:
+        pixel.loc.x = randrange(-10,10)
+        pixel.loc.y = randrange(-10,10)
+        pixel.loc.z = randrange(-10,10)
+        pixel.put()
+
 class Actualize():
     @classmethod
     def Pixel(self):

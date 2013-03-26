@@ -10,7 +10,7 @@ import webapp2
 #import ProxyModels as prox
 from EdenModels import *
 import EdenWishes as wish
-
+from random import randrange
 
 #import datetime
 #import time
@@ -83,9 +83,13 @@ class WishingWell(webapp2.RequestHandler):
 
 class Test(webapp2.RequestHandler):
     def get(self):
+        dice = randrange(0,11)
+        self.response.out.write(str(dice)+'<br>')
+        if dice == 1:
+            wish.Actualize.Sprite()
+        wish.randPixelLoc()
         theout = wish.fAllPixelIDs('loc')
         wish.Broadcast(theout[0])
-        wish.Actualize.Sprite()
         self.response.out.write(json.dumps(theout))
         #self.response.out.write(theout)
 
