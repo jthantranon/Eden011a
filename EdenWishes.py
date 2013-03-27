@@ -40,7 +40,27 @@ def fAllPixelIDs(args='none'):
             q.append(str(pixel.xID))
     return q    
 
+def kidSplitter(kid):
+    thelist = kid.split('Pixel')
+    return thelist
 
+def updateLoc(pulseloc='none'):
+#    if args == 'none':
+#        pass
+#    else:
+        pixid = kidSplitter(pulseloc.origin)[1]
+        pixel = ndb.Key('Pixel',pixid).get()
+        pixel.loc.x = pulseloc.xloc
+        pixel.loc.y = pulseloc.yloc
+        pixel.loc.z = pulseloc.zloc
+        pixel.put()
+        update = PulseLoc()
+        update.type = 'LocUpdateConfirm'
+        update.origin = pixel.kid
+        update.xloc = pixel.loc.x
+        update.yloc = pixel.loc.y
+        update.zloc = pixel.loc.z
+        return update
 
 class Actualize():
     @classmethod

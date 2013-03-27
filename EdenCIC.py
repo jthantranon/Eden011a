@@ -74,6 +74,11 @@ class WishingWell(webapp2.RequestHandler):
                 grant = wish.fAllPixelIDs(wishargs)
             else:
                 grant = wish.fAllPixels()
+        elif name == 'updateLoc':
+            if wishargs:
+                grant = wish.updateLoc(wishargs)
+            else:
+                grant = 'Need arguments yo!'
         else:
             grant = 'wish not granted'
         #cpix.grant = wish#['name']
@@ -88,9 +93,15 @@ class Test(webapp2.RequestHandler):
         if dice == 1:
             wish.Actualize.Sprite()
         wish.randPixelLoc()
+        pulseloc = PulseLoc()
+        pulseloc.origin = 'Pixel8'
+        pulselocout = wish.updateLoc(pulseloc)
         theout = wish.fAllPixelIDs('loc')
         wish.Broadcast(theout[0])
         self.response.out.write(json.dumps(theout))
+        self.response.out.write('<br>')
+        self.response.out.write('<br>')
+        self.response.out.write(jsonify(pulselocout))
         #self.response.out.write(theout)
 
 #class Immigration(webapp2.RequestHandler):
