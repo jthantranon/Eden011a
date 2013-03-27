@@ -30,6 +30,7 @@ ME3D.Avatar = function (props) {
 	this.camera = this.options.camera;
 	this.tooltip = false;
 	this.menu = false;
+	this.name = this.options.name;
 	
 	this.presence = new THREE.Object3D(); // container for the body
 	this.sparkles = new ME3D.Emitter();
@@ -270,7 +271,9 @@ ME3D.Avatar.prototype.getBoundingBox = function() {
 
 ME3D.Avatar.prototype.updateLoc = function(location, heading, velocity) {
 	
-	this.location = location;
+	console.log(location);
+	
+	this.location.copy(location);
 	//this.heading = heading;
 	//this.velocity = velocity;
 	

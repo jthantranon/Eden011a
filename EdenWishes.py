@@ -11,14 +11,26 @@ from random import randrange
 import EdenHeart as heart
 
 
+
+
 def fAllPixels():
     pixels = Pixel.query().fetch()
     return pixels
+
+def randPixelLoc():
+    pixels = fAllPixels()
+    for pixel in pixels:
+        pixel.loc.x = randrange(-10,10)
+        pixel.loc.y = randrange(-10,10)
+        pixel.loc.z = randrange(-10,10)
+        pixel.put()
+        
 
 def fAllPixelIDs(args='none'):
     pixels = fAllPixels()
     if args == 'loc':
         q = []
+        randPixelLoc()
         for pixel in pixels:
             pulseloc = PulseLoc(type='pulseloc',origin=pixel.kid,xloc=pixel.loc.x,yloc=pixel.loc.y,zloc=pixel.loc.z)
             q.append(pulseloc.to_dict())
@@ -28,13 +40,7 @@ def fAllPixelIDs(args='none'):
             q.append(str(pixel.xID))
     return q    
 
-def randPixelLoc():
-    pixels = fAllPixels()
-    for pixel in pixels:
-        pixel.loc.x = randrange(-10,10)
-        pixel.loc.y = randrange(-10,10)
-        pixel.loc.z = randrange(-10,10)
-        pixel.put()
+
 
 class Actualize():
     @classmethod

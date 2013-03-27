@@ -6,12 +6,25 @@
 
 // TODO: default parameters and arguments
 
-ME3D.Population = function (scene) {
+ME3D.Population = function (scene,picker) {
+	
+	var self = this;
 	
 	this.avatarList = [];
 	this.refreshList = [];
 	this.census = [];
 	this.scene = scene;
+	this.picker = picker;
+	
+	this.getData = function() {
+		MEUI.Wish('fAllPixelIDs', 'loc', function(d){
+			self.refresh(d);
+		});
+	};
+	
+	//alert(self.picker);
+	
+	var popUpdate = window.setInterval(self.getData,1000)
 
 };
 
@@ -73,12 +86,57 @@ ME3D.Population.prototype = {
 	
 	refresh: function(data) {
 		var self = this;
+		
+		
+		
 		for(var i=0,j=data.length; i<j; i++){
-			var avatar = self.scene.getChildByName(data[i].kid);
-			var location = data[i].location;
-			var heading = data[i].heading;
-			var velocity = data[i].velocity;
-			avatar.updateLoc(location, heading);
+			
+			// take an item from the loc list, now check to see
+			// if the origin property is in the census
+			
+			var searchTerm = data[i].origin;
+			var isPresent = false;
+			
+			// loop through census looking for matching origin
+			for(var k=0,l=self.census.length; k<l && isPresent == false; k++){
+				if (self.census[k].origin == searchTerm) {
+					// it exists
+					isPresent = true;
+				};
+			};
+			
+			if(isPresent) {
+				//alert('present');
+				// update the location
+				var avatar = self.scene.getChildByName(data[i].origin);
+				var location = new THREE.Vector3(data[i].xloc,.5,data[i].zloc);
+				// var heading = data[i].heading;
+				// var velocity = data[i].velocity;
+				avatar.updateLoc(location);
+				
+			} else {
+				// alert('not Present');
+				// make a new avatar
+				var updatedLoc = new THREE.Vector3(data[i].xloc,.5,data[i].zloc);
+				var newAvatar = new ME3D.Avatar({name:searchTerm, location:updatedLoc});
+				console.log(self.picker);
+				self.picker.addClick(newAvatar);
+				self.scene.add(newAvatar);
+				
+				// and push the entry to censsdus
+				self.census.push(data[i]);
+			}
+			
+			
+			// in the future check for missing list and destroy them
+			// search through census
+				// if not found in data, delete from census
+				
+				
+			// alert(searchTerm);
+			//var searchIndex = 
+			
+			
 		};
 	}
 	

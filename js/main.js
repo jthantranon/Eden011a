@@ -169,6 +169,7 @@ $.when(
 	
 	RENDERER.queueRender(renderLoop,'');
 	RENDERER.queueAnimation(runPhysics,'');
+	POPULATION = new ME3D.Population(CITY.scene,PICKER);
 	
 	}
     
