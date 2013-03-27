@@ -1,51 +1,4 @@
-$.when(
-    $.getScript( "/_ah/channel/jsapi"),
-    // $.getScript( "js/me3d.js"),
-    // $.getScript( "js/meui.js"),
-    $.Deferred(function( deferred ){
-        $( deferred.resolve );
-    })
-).done(function(goog){
 	
-	console.log('GOOGLE CHANNEL = LOADED');
-	
-	$.when(
-	    $.getScript( "js/meui/meui.channel.js"),
-	    $.getScript( "js/meui/meui.chatbox.js"),
-	    // $.getScript( "js/meui/meui.glass.js"),
-	    // $.getScript( "js/UIControl.js"),
-	    // $.getScript( "js/me3d/me3d.interactions.js"),
-	    // $.getScript( "js/me3d/me3d.entity.js"),
-	    // $.getScript( "js/me3d/me3d.system.js"),
-	    // $.getScript( "js/me3d/me3d.scene.js"),
-	    // $.getScript( "js/me3d/me3d.physics.js"),
-	    // $.getScript( "js/me3d/me3d.population.js"),
-	    // $.getScript( "js/me3d/me3d.emitter.js"),
-	    // $.getScript( "js/me3d/me3d.sparks.js"),
-	    // $.getScript( "js/me3d/me3d.picker.js"),
-	    // $.getScript( "js/me3d/me3d.bounds.js"),
-	    // $.getScript( "js/me3d/me3d.stage.js"),
-	    // $.getScript( "js/me3d/me3d.grid.js"),
-	    // $.getScript( "js/me3d/me3d.stage.js"),
-	    // $.getScript( "js/me3d/me3d.avatar.js"),
-	    // $.getScript( "js/me3d/me3d.testcube.js"),
-	    // $.getScript( "js/me3d/me3d.avatarmover.js"),
-	    // $.getScript( "js/me3d/me3d.builder.js"),
-	    // $.getScript( "js/me3d/me3d.controls.js"),
-	    // $.getScript( "js/me3d/me3d.transitions.js"),
-	    // $.getScript( "js/me3d/me3d.render.js"),
-	    // $.getScript( "js/me3d/me3d.world.js"),    
-// 	    
-	    $.Deferred(function( deferred ){
-	        $( deferred.resolve );
-	    })
-	).done(function(goog){
-		
-	console.log('MAIN EXECUTION');
-	
-	
-		
-
 	// disabled splash
     $('#splash').hide();
 	/* 
@@ -64,10 +17,9 @@ $.when(
 	// load all of the queued assets and start main
 	PRELOADER.load(main);
 	
-
 	
-	// main execution
-	function main() {
+// main execution
+function main() {
 		
 			
 	var MEAPP = new ME3D.World();
@@ -130,7 +82,7 @@ $.when(
 	
 	// PLAYER AVATAR //
 	///////////////////
-	var avatarProps = { location: new THREE.Vector3(1,2,1), camera: CITY.camera };
+	var avatarProps = { location: new THREE.Vector3(1,2,1), camera: CITY.camera, isMyAvatar: true};
 	var userAvatar = new ME3D.Avatar(avatarProps);
 	var avatarBounds = userAvatar.getBoundingBox();
 	
@@ -171,8 +123,6 @@ $.when(
 	RENDERER.queueAnimation(runPhysics,'');
 	POPULATION = new ME3D.Population(CITY.scene,PICKER);
 	
-	}
-    
-	}); //end    
-
-});
+}
+        
+

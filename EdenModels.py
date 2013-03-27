@@ -16,6 +16,6 @@ class Pulse(ndb.Model):
     origin = ndb.StringProperty()
 
 class PulseLoc(Pulse):
-    xloc = ndb.IntegerProperty()
-    yloc = ndb.IntegerProperty()
-    zloc = ndb.IntegerProperty()
+    xloc = ndb.FloatProperty()
+    yloc = ndb.FloatProperty()
+    zloc = ndb.FloatProperty()

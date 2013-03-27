@@ -59,6 +59,7 @@ handlers:
     
 - url: /.*
   script: main.app
+  login: required
 
 inbound_services:
 - channel_presence

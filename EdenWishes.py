@@ -30,7 +30,7 @@ def fAllPixelIDs(args='none'):
     pixels = fAllPixels()
     if args == 'loc':
         q = []
-        randPixelLoc()
+        #randPixelLoc()
         for pixel in pixels:
             pulseloc = PulseLoc(type='pulseloc',origin=pixel.kid,xloc=pixel.loc.x,yloc=pixel.loc.y,zloc=pixel.loc.z)
             q.append(pulseloc.to_dict())
@@ -48,11 +48,11 @@ def updateLoc(pulseloc='none'):
 #    if args == 'none':
 #        pass
 #    else:
-        pixid = kidSplitter(pulseloc.origin)[1]
+        pixid = kidSplitter(pulseloc['origin'])[1]
         pixel = ndb.Key('Pixel',pixid).get()
-        pixel.loc.x = pulseloc.xloc
-        pixel.loc.y = pulseloc.yloc
-        pixel.loc.z = pulseloc.zloc
+        pixel.loc.x = pulseloc['xloc']
+        pixel.loc.y = pulseloc['yloc']
+        pixel.loc.z = pulseloc['zloc']
         pixel.put()
         update = PulseLoc()
         update.type = 'LocUpdateConfirm'

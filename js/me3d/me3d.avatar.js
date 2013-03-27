@@ -19,6 +19,7 @@ ME3D.Avatar = function (props) {
 	////////////////////////
 	this.options = {
 		location: new THREE.Vector3(0,0,0),
+		isMyAvatar: false
 	}
 	
 	if (typeof props !== 'undefined') MEUI.merge(this.options, props);
@@ -31,6 +32,7 @@ ME3D.Avatar = function (props) {
 	this.tooltip = false;
 	this.menu = false;
 	this.name = this.options.name;
+	this.isMyAvatar = this.options.isMyAvatar;
 	
 	this.presence = new THREE.Object3D(); // container for the body
 	this.sparkles = new ME3D.Emitter();
@@ -239,6 +241,15 @@ ME3D.Avatar = function (props) {
 	this.position = this.location;
 	this.add(this.presence);
 	
+	if(self.isMyAvatar) {
+		var meh = self;
+		console.log(meh);
+		var popUpdate = window.setInterval(function(){
+			meh.sendLoc(meh);			
+		},500);
+		
+	}
+	
 	return this;
 
 };
@@ -271,11 +282,29 @@ ME3D.Avatar.prototype.getBoundingBox = function() {
 
 ME3D.Avatar.prototype.updateLoc = function(location, heading, velocity) {
 	
-	console.log(location);
+	//console.log(location);
 	
 	this.location.copy(location);
 	//this.heading = heading;
 	//this.velocity = velocity;
+	
+};
+
+ME3D.Avatar.prototype.sendLoc = function(ctx) {
+	
+	var self = this;
+	//console.log(ctx.location);
+	var pulse = {
+		'origin': MEUI.Channel.avatarID,
+		xloc: ctx.location.x,
+		yloc: 0.5,
+		zloc: ctx.location.z	
+	};
+		
+	//console.log('call: MEUI.ChatBox.broadcast()');
+	MEUI.Wish('updateLoc', pulse, function(d){
+		//console.log(d);
+	});
 	
 };
 

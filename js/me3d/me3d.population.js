@@ -21,10 +21,11 @@ ME3D.Population = function (scene,picker) {
 			self.refresh(d);
 		});
 	};
-	
+		
 	//alert(self.picker);
 	
-	var popUpdate = window.setInterval(self.getData,1000)
+	var popUpdate = window.setInterval(self.getData,500);
+	
 
 };
 
@@ -119,7 +120,7 @@ ME3D.Population.prototype = {
 				// make a new avatar
 				var updatedLoc = new THREE.Vector3(data[i].xloc,.5,data[i].zloc);
 				var newAvatar = new ME3D.Avatar({name:searchTerm, location:updatedLoc});
-				console.log(self.picker);
+				//console.log(self.picker);
 				self.picker.addClick(newAvatar);
 				self.scene.add(newAvatar);
 				
