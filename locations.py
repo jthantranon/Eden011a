@@ -139,38 +139,38 @@ class UpdateLocations(webapp2.RequestHandler):
         currentPixel['type'] = self.request.get('pixel[type]')
         
         
-        if currentPixel == '':  
-            currentPixel = { "origin": "Pixel24", "yloc": 0.5, "type": "pulseloc", "zloc": 5.88888, "xloc": 15.6234321862935426 }
-            #self.response.out.write(json.dumps({'status':'fail - no position data supplied'}))
-            #do something different for no data supplied
-        
+        # see if we got data from the client
+        if currentPixel['origin'] == '':
+            census = getCachedCensus() # get current census data
             
-        census = getCachedCensus() # get current census data
+            ## export data to client
+            data = census['pixels']
+            self.response.out.write(json.dumps(data))
         
-              
-
-        
-        # check to see if the pixel is in the set, then update or add
-        if checkForPixel(currentPixel['origin'],census):
-            census = updateCensusPixel(currentPixel,census)
         else:
-            census = addCensusPixel(currentPixel,census)
-
-                    
-        # ok, the census data is updated now; still left todo:
-        ## check to see if stored data is stale
-        # if isStoredCensusStale(census):
-            #dumpCensus(census)
+               
+            census = getCachedCensus() # get current census data
             
-        # check for stale pixels
-        # will add this later
-                    
-        ## update the memcache
-        populateCensus(census)
-        
-        ## export data to client
-        data = census['pixels']
-        self.response.out.write(json.dumps(data))
+            # check to see if the pixel is in the set, then update or add
+            if checkForPixel(currentPixel['origin'],census):
+                census = updateCensusPixel(currentPixel,census)
+            else:
+                census = addCensusPixel(currentPixel,census)
+               
+            # ok, the census data is updated now; still left todo:
+            ## check to see if stored data is stale
+            # if isStoredCensusStale(census):
+                #dumpCensus(census)
+                
+            # check for stale pixels
+            # will add this later
+                        
+            ## update the memcache
+            populateCensus(census)
+            
+            ## export data to client
+            data = census['pixels']
+            self.response.out.write(json.dumps(data))
                     
           
         

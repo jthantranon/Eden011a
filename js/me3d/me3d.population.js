@@ -15,21 +15,28 @@ ME3D.Population = function (scene,picker,userAvatar) {
 	this.census = [];
 	this.scene = scene;
 	this.picker = picker;
-	this.updateRate = 100;
+	this.updateRate = 500;
 	this.userAvatar = userAvatar;
 	
 	this.getData = function() {
 		
-		var locationDat = { 'pixel':{
-			"origin": 'Pixel599',
-			"yloc": .5,
+		
+		if(MEUI.Channel.avatarID != '') {
+			
+			var locationDat = { 'pixel':{
+			"origin": MEUI.Channel.avatarID,
+			"yloc": self.userAvatar.location.y,
 			"type": "pulseloc",
 			"xloc": self.userAvatar.location.x,
 			"zloc": self.userAvatar.location.z}};
 			
-		$.get('locations/update', locationDat, function(d){
-			self.refresh(d);
-		});
+			
+			$.get('locations/update', locationDat, function(d){
+				self.refresh(d);
+			});
+			
+		}
+		
 	};
 	
 		
@@ -126,21 +133,23 @@ ME3D.Population.prototype = {
 				var avatar = self.scene.getChildByName(data[i].origin);
 				var oldLocation = avatar.location;
 				
-				var location = new THREE.Vector3(data[i].xloc,.5,data[i].zloc);
+				var location = new THREE.Vector3(data[i].xloc,data[i].yloc,data[i].zloc);
 				// var heading = data[i].heading;
 				// var velocity = data[i].velocity;
 				
 				var predictedX = (avatar.location.x - location.x) + avatar.location.x;
+				var predictedY = (avatar.location.y - location.y) + avatar.location.y;
 				var predictedZ = (avatar.location.z - location.z) + avatar.location.z;
 				
-				var predicted = { x: predictedX, z: predictedZ };				
+				
+				var predicted = { x: predictedX, y: predictedY, z: predictedZ };				
 				
 				avatar.updateLoc(location,predicted);
 				
 			} else {
 				// alert('not Present');
 				// make a new avatar
-				var updatedLoc = new THREE.Vector3(data[i].xloc,.5,data[i].zloc);
+				var updatedLoc = new THREE.Vector3(data[i].xloc,data[i].yloc,data[i].zloc);
 				var newAvatar = new ME3D.Avatar({name:searchTerm, location:updatedLoc});
 				//console.log(self.picker);
 				self.picker.addClick(newAvatar);

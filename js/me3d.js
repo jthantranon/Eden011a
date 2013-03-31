@@ -265,3 +265,55 @@ ME3D.Preloader = {
 	}
 		
 };
+
+ME3D.LERP = {
+	
+	lerpList:[],
+	clock: new Date(),
+	timer: new THREE.Clock(),
+	
+	tween: function(props) {
+		
+		var currentTime = new Date();
+				
+		var endTime = currentTime.getTime() + props.duration*1000;
+			
+		var difference = -(props.start - props.end);
+			
+		var changePerSecond =  difference / props.duration;
+			 
+		ME3D.LERP.lerpList.push(props.item, changePerSecond, endTime);
+		
+	},
+	
+	update: function() {
+		var delta = ME3D.LERP.timer.getDelta();	
+		//console.log(ME3D.LERP.lerpList);	
+		for(var i=0,j=ME3D.LERP.lerpList.length; i<j; i++){
+			console.log(new Date().getTime());
+			if(ME3D.LERP.lerpList[2] > new Date().getTime()) {
+				console.log('over');
+				ME3D.LERP.remove(ME3D.LERP.lerpList[i]);
+			} else {
+				console.log('going');
+				ME3D.LERP.lerpList[i][0] + ME3D.LERP.lerpList[i][1]*delta;				
+			}	
+			
+		};		
+	},
+	
+	remove: function(observer){
+		ME3D.LERP.removeAt( ME3D.LERP.lerpList.IndexOf( observer, 0 ) );		
+	},
+	
+	removeAt: function( index ){
+		if( index === 0 ){
+			ME3D.LERP.lerpList.shift();
+		} else if( index === this.observerList.length -1 ) {
+			ME3D.LERP.lerpList.pop();
+		} else {
+			ME3D.LERP.lerpList.splice(index,1);
+		}
+	}
+	
+}

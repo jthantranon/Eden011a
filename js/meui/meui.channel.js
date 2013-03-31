@@ -17,36 +17,39 @@ MEUI.Channel = {
 	init: function(goog,data) {
 		
 		//alert(data.cPixel.kid);
+				
+		//this.chantoken = data.cPixel.xID;
+		//alert(JSON.stringify(data));
+		//this.avatarID = data.cPixel.kid;
 		
-		this.chantoken = data.cPixel.xID;
-		//alert(JSON.stringify(this.chantoken));
-		this.avatarID = data.cPixel.kid;
-		
-		channel = new goog.appengine.Channel(this.chantoken);
-	    socket = channel.open();
-	    socket.onopen = onOpened;
-	    socket.onmessage = onMessage;
-	    socket.onerror = onError;
-	    socket.onclose = onClose;
-		
-		function onOpened() {
-			//alert('opened')			
+		onOpened = function() {
+			//alert('opened')
+			MEUI.Channel.avatarID = data.cPixel.kid;			
 		}
 		
-		function onMessage(pulse) {
+		onMessage = function(pulse) {
 			var data = $.parseJSON(pulse.data);
 			//alert(JSON.stringify(data));
 			MEUI.Channel.broadcastChat(data);
 			alert('msg');
 		}
 		
-		function onError() {
-			//alert('error');
+		onError = function(e) {
+			alert(JSON.stringify(e))
 		}
 		
-		function onClose() {
-			//alert('close');
+		onClose = function() {
+			alert('Channel Closed');
 		}
+		
+		//alert(JSON.stringify(data))
+		channel = new goog.appengine.Channel(data.Chan);
+		//alert(JSON.stringify(channel));
+	    socket = channel.open();
+	    socket.onopen = onOpened;
+	    socket.onmessage = onMessage;
+	    socket.onerror = onError;
+	    socket.onclose = onClose;
 		
 	},
 	
@@ -64,7 +67,7 @@ MEUI.Channel = {
 	
 };
 
-$.getJSON('cic/asession', function(data){
+$.getJSON('/cic/asession', function(data){
 	MEUI.Channel.init(goog,data);
 	//$('#chat').attr("data-token",data.token);
 	//$('#chat').attr("data-mine",data.clientID);

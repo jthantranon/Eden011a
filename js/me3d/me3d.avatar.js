@@ -284,21 +284,27 @@ ME3D.Avatar.prototype.getBoundingBox = function() {
 ME3D.Avatar.prototype.updateLoc = function(location, predicted, velocity) {
 	var self = this;
 	console.log(JSON.stringify(predicted));
+	console.log(JSON.stringify(location));
 	self.location.copy(location);
-	var tween = new TWEEN.Tween( { x: location.x, y: location.y } )
-        .to( { x: predicted.x, z: predicted.z }, 50 )
-        .easing( TWEEN.Easing.Linear.None )
-        .onUpdate( function () {
-        	alert("sds");
-        	var newLocation = new THREE.Vector3(this.x,.5,this.z);
-        	self.location.copy(newLocation);
-        	//self.location.x = this.x;
-        	//self.location.z = this.z;
-
-        } )
-        .start();
-	//console.log(location);
 	
+	// lerp here
+	ME3D.LERP.tween({
+		item:self.location.x,
+		duration:.49,
+		start:location.x,
+		end:predicted.x });
+		
+	ME3D.LERP.tween({
+		item:self.userAvatar.location.y,
+		duration:.49,
+		start:location.y,
+		end:predicted.y });
+		
+	ME3D.LERP.tween({
+		item:self.userAvatar.location.z,
+		duration:.49,
+		start:location.z,
+		end:predicted.z });
 	
 	//this.heading = heading;
 	//this.velocity = velocity;
