@@ -18,7 +18,8 @@ MEUI.Channel = {
 		
 		//alert(data.cPixel.kid);
 		
-		this.chantoken = data.Chan;
+		this.chantoken = data.cPixel.xID;
+		//alert(JSON.stringify(this.chantoken));
 		this.avatarID = data.cPixel.kid;
 		
 		channel = new goog.appengine.Channel(this.chantoken);
@@ -29,7 +30,7 @@ MEUI.Channel = {
 	    socket.onclose = onClose;
 		
 		function onOpened() {
-			//alert('opened biatch')			
+			//alert('opened')			
 		}
 		
 		function onMessage(pulse) {
@@ -40,11 +41,11 @@ MEUI.Channel = {
 		}
 		
 		function onError() {
-			$("#content").append('fuck its fukd!');
+			//alert('error');
 		}
 		
 		function onClose() {
-			$("#content").append('stay the fuck out');
+			//alert('close');
 		}
 		
 	},

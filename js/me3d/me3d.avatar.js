@@ -33,6 +33,7 @@ ME3D.Avatar = function (props) {
 	this.menu = false;
 	this.name = this.options.name;
 	this.isMyAvatar = this.options.isMyAvatar;
+	this.locUpdateRate = 50;
 	
 	this.presence = new THREE.Object3D(); // container for the body
 	this.sparkles = new ME3D.Emitter();
@@ -156,7 +157,7 @@ ME3D.Avatar = function (props) {
 		var t = setTimeout(function(){
 			//self.doMouseEnter = self.doMouseEnterDelayed;
 			//self.doMouseLeave = self.doMouseLeaveDelayed;
-		},2000)
+		},self.locUpdateRate);
 	}
 
 
@@ -241,14 +242,14 @@ ME3D.Avatar = function (props) {
 	this.position = this.location;
 	this.add(this.presence);
 	
-	if(self.isMyAvatar) {
-		var meh = self;
-		console.log(meh);
-		var popUpdate = window.setInterval(function(){
-			meh.sendLoc(meh);			
-		},500);
-		
-	}
+	// if(self.isMyAvatar) {
+		// var meh = self;
+		// console.log(meh);
+		// var popUpdate = window.setInterval(function(){
+			// meh.sendLoc(meh);			
+		// },500);
+// 		
+	// }
 	
 	return this;
 
@@ -280,11 +281,25 @@ ME3D.Avatar.prototype.getBoundingBox = function() {
 
 };
 
-ME3D.Avatar.prototype.updateLoc = function(location, heading, velocity) {
-	
+ME3D.Avatar.prototype.updateLoc = function(location, predicted, velocity) {
+	var self = this;
+	console.log(JSON.stringify(predicted));
+	self.location.copy(location);
+	var tween = new TWEEN.Tween( { x: location.x, y: location.y } )
+        .to( { x: predicted.x, z: predicted.z }, 50 )
+        .easing( TWEEN.Easing.Linear.None )
+        .onUpdate( function () {
+        	alert("sds");
+        	var newLocation = new THREE.Vector3(this.x,.5,this.z);
+        	self.location.copy(newLocation);
+        	//self.location.x = this.x;
+        	//self.location.z = this.z;
+
+        } )
+        .start();
 	//console.log(location);
 	
-	this.location.copy(location);
+	
 	//this.heading = heading;
 	//this.velocity = velocity;
 	

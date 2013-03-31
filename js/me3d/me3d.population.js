@@ -6,7 +6,7 @@
 
 // TODO: default parameters and arguments
 
-ME3D.Population = function (scene,picker) {
+ME3D.Population = function (scene,picker,userAvatar) {
 	
 	var self = this;
 	
@@ -15,16 +15,27 @@ ME3D.Population = function (scene,picker) {
 	this.census = [];
 	this.scene = scene;
 	this.picker = picker;
+	this.updateRate = 100;
+	this.userAvatar = userAvatar;
 	
 	this.getData = function() {
-		MEUI.Wish('fAllPixelIDs', 'loc', function(d){
+		
+		var locationDat = { 'pixel':{
+			"origin": 'Pixel599',
+			"yloc": .5,
+			"type": "pulseloc",
+			"xloc": self.userAvatar.location.x,
+			"zloc": self.userAvatar.location.z}};
+			
+		$.get('locations/update', locationDat, function(d){
 			self.refresh(d);
 		});
 	};
+	
 		
 	//alert(self.picker);
 	
-	var popUpdate = window.setInterval(self.getData,500);
+	var popUpdate = window.setInterval(self.getData,self.updateRate);
 	
 
 };
@@ -88,14 +99,17 @@ ME3D.Population.prototype = {
 	refresh: function(data) {
 		var self = this;
 		
-		
+		data = JSON.parse(data);
+		console.log(data.length);
+		console.log(JSON.stringify(data));
 		
 		for(var i=0,j=data.length; i<j; i++){
 			
 			// take an item from the loc list, now check to see
 			// if the origin property is in the census
-			
+			//console.log(JSON.stringify(data[i].origin));
 			var searchTerm = data[i].origin;
+			console.log(JSON.stringify(data[i].origin));
 			var isPresent = false;
 			
 			// loop through census looking for matching origin
@@ -110,10 +124,18 @@ ME3D.Population.prototype = {
 				//alert('present');
 				// update the location
 				var avatar = self.scene.getChildByName(data[i].origin);
+				var oldLocation = avatar.location;
+				
 				var location = new THREE.Vector3(data[i].xloc,.5,data[i].zloc);
 				// var heading = data[i].heading;
 				// var velocity = data[i].velocity;
-				avatar.updateLoc(location);
+				
+				var predictedX = (avatar.location.x - location.x) + avatar.location.x;
+				var predictedZ = (avatar.location.z - location.z) + avatar.location.z;
+				
+				var predicted = { x: predictedX, z: predictedZ };				
+				
+				avatar.updateLoc(location,predicted);
 				
 			} else {
 				// alert('not Present');

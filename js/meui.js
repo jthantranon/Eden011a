@@ -83,10 +83,10 @@ MEUI.JSONWish = function(name,args,cbFunc) {
 //		
 //	})(name,args);
 	
-	console.debug({ wish: JSON.stringify(wish)});
+	//console.debug({ wish: JSON.stringify(wish)});
 	
 	$.getJSON('/cic/wishingwell', { wish: JSON.stringify(wish)},function(grant) {
-		console.debug(grant); console.debug(this);
+		//console.debug(grant); console.debug(this);
 	}).done(cbFunc);
 	
 };

@@ -50,6 +50,9 @@ handlers:
   
 - url: /chris.*
   script: chris.app
+  
+- url: /locations.*
+  script: locations.app
 
 - url: /eden.*
   script: EdenEden.app

@@ -124,7 +124,7 @@ def myPixel():
 def aChan():
     xID =  users.get_current_user().user_id() #might have to move this into private scopes? may have sesh persist problems
     token = channel.create_channel(xID,1440)
-    channel.send_message(xID,json.dumps('42'))
+    #channel.send_message(xID,json.dumps('42'))
     return token
 
 def Broadcast(msg):
