@@ -2,7 +2,6 @@
 from google.appengine.api import users
 from google.appengine.api import channel
 from google.appengine.ext import ndb
-
 import json
 import webapp2
 #import EdenDataOfficer as edo
@@ -10,12 +9,13 @@ import webapp2
 #import ProxyModels as prox
 from EdenModels import *
 import EdenWishes as wish
-from random import randrange
-
-#import datetime
+from random import randrange#import datetime
 #import time
-import json
 #import random
+import Eden.Locations as loc
+import Eden.Heart as heart
+
+
 
 #cXUSE =  users.get_current_user() #External ID = Google ID
 #cpix = prox.cPixel()
@@ -32,13 +32,12 @@ def jsonify(data):
             except:
                 pass
 
-
 class aSession(webapp2.RequestHandler):
     def get(self):
         sesh = wish.aSession()
         self.response.out.write(jsonify(sesh))
 
-class Eden(webapp2.RequestHandler):
+class EdenInit(webapp2.RequestHandler):
     def get(self):
         source = ndb.Key('Crystal','1').get()
         if source:
@@ -88,21 +87,32 @@ class WishingWell(webapp2.RequestHandler):
 
 class Test(webapp2.RequestHandler):
     def get(self):
-        dice = randrange(0,11)
-        self.response.out.write(str(dice)+'<br>')
-        if dice == 1:
-            wish.Actualize.Sprite()
-        wish.randPixelLoc()
-        pulseloc = PulseLoc()
-        pulseloc.origin = 'Pixel8'
-        pulselocout = wish.updateLoc(pulseloc)
-        theout = wish.fAllPixelIDs('loc')
-        wish.Broadcast(theout[0])
-        self.response.out.write(json.dumps(theout))
-        self.response.out.write('<br>')
-        self.response.out.write('<br>')
-        self.response.out.write(jsonify(pulselocout))
-        #self.response.out.write(theout)
+        theout = loc.UpdateLocations().test()
+        theout2 = loc.UpdateLocations().test()
+        theout3 = loc.UpdateLocations().getStoredCensus()
+        theout4 = loc.UpdateLocations().getCachedCensus()
+        theout5 = loc.UpdateLocations().checkForPixel('Pixel2')
+        theout6 = loc.UpdateLocations().updateCensusPixel()
+        theheart = heart.Pulse('whee')
+        
+        self.response.out.write(theheart.__dict__)
+
+        
+#        dice = randrange(0,11)
+#        self.response.out.write(str(dice)+'<br>')
+#        if dice == 1:
+#            wish.Actualize.Sprite()
+#        wish.randPixelLoc()
+#        pulseloc = PulseLoc()
+#        pulseloc.origin = 'Pixel8'
+#        pulselocout = wish.updateLoc(pulseloc)
+#        theout = wish.fAllPixelIDs('loc')
+#        wish.Broadcast(theout[0])
+#        self.response.out.write(json.dumps(theout))
+#        self.response.out.write('<br>')
+#        self.response.out.write('<br>')
+#        self.response.out.write(jsonify(pulselocout))
+#        #self.response.out.write(theout)
 
 #class Immigration(webapp2.RequestHandler):
 #    def get(self):
@@ -132,7 +142,7 @@ app = webapp2.WSGIApplication([
 #                               ('/cic/incTutorial', IncrementTutorial),
 #                               ('/cic/asession', aSession),
                                ('/cic/asession', aSession),
-                               ('/cic/eden', Eden),
+                               ('/cic/edeninit', EdenInit),
                                ('/cic/wishingwell', WishingWell),
                                ('/cic/test', Test),
 #                               ('/cic/jsonwish', JSONWish),

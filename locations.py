@@ -57,6 +57,7 @@ class UpdateLocations(webapp2.RequestHandler):
         ## checks to see if current Pixel already
         ## exists in the cached dataset
         ###################################################
+        
         def checkForPixel(pixelID,dataset):
              
             hasPixel = False
