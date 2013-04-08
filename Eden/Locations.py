@@ -11,28 +11,35 @@ from EdenModels import *
 from datetime import *
 from datetime import timedelta
 
+#import Heart as heart
+from Eden.Heart import Pulse
+
 ###
 # census dataset == { staleDate: compileTime, pixels: dataset }
 # pixel data == { "origin": "Pixel23", "yloc": 0.5, "type": "pulseloc", "zloc": 5.755794178239267, "xloc": 15.666031862935426 }
 # when sending back to client, just send the pixels and not the compiletime
 ###
 
-
 class UpdateLocations():
+#    memcache = memcache.Client
     ##########################
     ## EXECUTION  
     ##########################
     currentPixel = {} 
-    def __init__(self,pulse={'origin':'Pixel0','xloc':2,'yloc':3,'zloc':0,'type':'loctype'}):
-        
-        self.currentPixel['origin'] = pulse['origin']
-        self.currentPixel['xloc'] = pulse['xloc']
-        self.currentPixel['yloc'] = pulse['yloc']
-        self.currentPixel['zloc'] = pulse['zloc']
-        self.currentPixel['type'] = pulse['type']
+    def __init__(self,pulse={'origin':'Pixel0','xloc':2,'yloc':3,'zloc':0,'pulseType':'loctype'}):
+        self.currentPixel = pulse
+#        self.currentPixel['origin'] = pulse['origin']
+#        self.currentPixel['xloc'] = pulse['xloc']
+#        self.currentPixel['yloc'] = pulse['yloc']
+#        self.currentPixel['zloc'] = pulse['zloc']
+#        self.currentPixel['pulseType'] = pulse['pulseType']
     
     def test(self):
-        return self.currentPixel['yloc']
+#        cache = self.getStoredCensus()
+        dataset = self.getCachedCensus()
+        self.updateCensusPixel(self.currentPixel, dataset)
+        memcache.set('census', dataset)
+        return memcache.get('census')
     
     ##########################
     ## HELPERS  
@@ -44,7 +51,7 @@ class UpdateLocations():
         pixels = Pixel.query().fetch()
         census = []
         for pixel in pixels:
-             census.append(pixel.to_dict())
+            census.append(pixel.to_dict())
         memcache.set('census',census)
         return census
     
@@ -56,7 +63,7 @@ class UpdateLocations():
         if census is not None:
             return census
         else:
-            return getStoredCensus()
+            return self.getStoredCensus()
             #census = getStoredCensus()
             #staleTime = now() + timedelta(minutes=15)
 #            staleTime = 12345
@@ -74,15 +81,16 @@ class UpdateLocations():
         return hasPixel
     
 
-    def updateCensusPixel(self,updatePixel=None,dataset=memcache.get('census')):
+    def updateCensusPixel(self,censusCheckInPulse,dataset=memcache.get('census')):
     ## updates an already existing pixel's location
     ###################################################
-#        for pixel in dataset:
-#            if pixel['kid'] == updatePixel['kid']:
-#                pixel['xloc'] = updatePixel['xloc']
-#                pixel['yloc'] = updatePixel['yloc']
-#                pixel['zloc'] = updatePixel['zloc']
-        #self.response.out.write(json.dumps(dataset))
+        for pixel in dataset:
+            if pixel['kid'] == censusCheckInPulse['origin']:
+                pixel['xloc'] = censusCheckInPulse['xloc']
+                pixel['yloc'] = censusCheckInPulse['yloc']
+                pixel['zloc'] = censusCheckInPulse['zloc']
+                pixel['loc'] = censusCheckInPulse['loc']
+            memcache.set('census',dataset)
         return dataset
     
 #    ## addCensusPixel()

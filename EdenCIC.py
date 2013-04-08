@@ -13,14 +13,14 @@ from random import randrange#import datetime
 #import time
 #import random
 import Eden.Locations as loc
-import Eden.Heart as heart
-
-
+#import Eden.Heart as heart
+from Eden.Heart import Pulse
 
 #cXUSE =  users.get_current_user() #External ID = Google ID
 #cpix = prox.cPixel()
 
 def jsonify(data):
+    thereturn = ''
     if isinstance(data, str) or isinstance(data, list):
         return json.dumps(data)
     else:
@@ -28,9 +28,14 @@ def jsonify(data):
             return json.dumps(data.to_dict())
         except AttributeError:
             try:
-                return json.dumps(data.__dict__)
+                thereturn = json.dumps(data.__dict__)
             except:
                 pass
+            if thereturn == '':
+                thereturn = data
+                return thereturn
+            else:
+                return thereturn
 
 class aSession(webapp2.RequestHandler):
     def get(self):
@@ -78,6 +83,11 @@ class WishingWell(webapp2.RequestHandler):
                 grant = wish.updateLoc(wishargs)
             else:
                 grant = 'Need arguments yo!'
+        elif name == 'censusUpdate':
+            if wishargs:
+                grant = loc.UpdateLocations(wishargs).test()
+            else:
+                grant = 'Need arguments yo!'
         else:
             grant = 'wish not granted'
         #cpix.grant = wish#['name']
@@ -87,15 +97,16 @@ class WishingWell(webapp2.RequestHandler):
 
 class Test(webapp2.RequestHandler):
     def get(self):
-        theout = loc.UpdateLocations().test()
+        theout = loc.UpdateLocations(Pulse().censusCheckIn('Pixel2', 42, 42, 42)).test()
         theout2 = loc.UpdateLocations().test()
         theout3 = loc.UpdateLocations().getStoredCensus()
         theout4 = loc.UpdateLocations().getCachedCensus()
         theout5 = loc.UpdateLocations().checkForPixel('Pixel2')
-        theout6 = loc.UpdateLocations().updateCensusPixel()
-        theheart = heart.Pulse('whee')
+        theout6 = loc.UpdateLocations().updateCensusPixel(Pulse().censusCheckIn('Pixel1', 42, 42, 42))
+#        theheart = Pulse().chat('Pixel0', 'Pixel0', 'whee')
         
-        self.response.out.write(theheart.__dict__)
+        self.response.out.write(jsonify(theout))
+#        self.response.out.write(theout)
 
         
 #        dice = randrange(0,11)

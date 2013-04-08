@@ -15,7 +15,7 @@ ME3D.Population = function (scene,picker,userAvatar) {
 	this.census = [];
 	this.scene = scene;
 	this.picker = picker;
-	this.updateRate = 500;
+	this.updateRate = 5001; //default 500
 	this.userAvatar = userAvatar;
 	
 	this.getData = function() {
@@ -23,17 +23,33 @@ ME3D.Population = function (scene,picker,userAvatar) {
 		
 		if(MEUI.Channel.avatarID != '') {
 			
-			var locationDat = { 'pixel':{
+			// var locationDat = { 'pixel':{
+			// "origin": MEUI.Channel.avatarID,
+			// "yloc": self.userAvatar.location.y,
+			// "type": "pulseloc",
+			// "xloc": self.userAvatar.location.x,
+			// "zloc": self.userAvatar.location.z}};
+// 			
+			var pixelDat = { 
 			"origin": MEUI.Channel.avatarID,
 			"yloc": self.userAvatar.location.y,
-			"type": "pulseloc",
+			"type": "censusCheckIn",
 			"xloc": self.userAvatar.location.x,
-			"zloc": self.userAvatar.location.z}};
+			"zloc": self.userAvatar.location.z,
+			"loc": {"x":self.userAvatar.location.x,"y":self.userAvatar.location.y,"z":self.userAvatar.location.z},
+			};
 			
-			
-			$.get('locations/update', locationDat, function(d){
-				self.refresh(d);
+
+			MEUI.Wish('censusUpdate', pixelDat, function(data){
+				console.debug(JSON.stringify(data)); //strting showing an array of objects
+				console.debug(JSON.parse(JSON.stringify(data))); //an array of objects
+				// self.refresh(data); //gives error
+				// self.refresh(JSON.parse(JSON.stringify(data))) // Uncaught TypeError: Object [object Array] has no method 'IndexOf'
 			});
+			
+			// $.get('locations/update', locationDat, function(d){
+				// self.refresh(d);
+			// });
 			
 		}
 		
@@ -106,7 +122,7 @@ ME3D.Population.prototype = {
 	refresh: function(data) {
 		var self = this;
 		
-		data = JSON.parse(data);
+		// data = JSON.parse(data);
 		console.log(data.length);
 		console.log(JSON.stringify(data));
 		
