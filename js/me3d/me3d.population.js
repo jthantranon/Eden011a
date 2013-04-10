@@ -43,7 +43,8 @@ ME3D.Population = function (scene,picker,userAvatar) {
 			MEUI.Wish('censusUpdate', pixelDat, function(data){
 				console.debug(JSON.stringify(data)); //strting showing an array of objects
 				console.debug(JSON.parse(JSON.stringify(data))); //an array of objects
-				// self.refresh(data); //gives error
+				//alert(JSON.stringify(data));
+				self.refresh(data.pixels); //gives error
 				// self.refresh(JSON.parse(JSON.stringify(data))) // Uncaught TypeError: Object [object Array] has no method 'IndexOf'
 			});
 			

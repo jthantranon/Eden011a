@@ -288,23 +288,23 @@ ME3D.Avatar.prototype.updateLoc = function(location, predicted, velocity) {
 	self.location.copy(location);
 	
 	// lerp here
-	ME3D.LERP.tween({
-		item:self.location.x,
-		duration:.49,
-		start:location.x,
-		end:predicted.x });
-		
-	ME3D.LERP.tween({
-		item:self.userAvatar.location.y,
-		duration:.49,
-		start:location.y,
-		end:predicted.y });
-		
-	ME3D.LERP.tween({
-		item:self.userAvatar.location.z,
-		duration:.49,
-		start:location.z,
-		end:predicted.z });
+	// ME3D.LERP.tween({
+		// item:self.location.x,
+		// duration:.49,
+		// start:location.x,
+		// end:predicted.x });
+// 		
+	// ME3D.LERP.tween({
+		// item:self.userAvatar.location.y,
+		// duration:.49,
+		// start:location.y,
+		// end:predicted.y });
+// 		
+	// ME3D.LERP.tween({
+		// item:self.userAvatar.location.z,
+		// duration:.49,
+		// start:location.z,
+		// end:predicted.z });
 	
 	//this.heading = heading;
 	//this.velocity = velocity;

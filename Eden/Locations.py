@@ -20,7 +20,7 @@ from Eden.Heart import Pulse
 # when sending back to client, just send the pixels and not the compiletime
 ###
 
-class UpdateLocations():
+class UpdateLocations(webapp2.RequestHandler):
 #    memcache = memcache.Client
     ##########################
     ## EXECUTION  
@@ -40,6 +40,7 @@ class UpdateLocations():
         self.updateCensusPixel(self.currentPixel, dataset)
         memcache.set('census', dataset)
         return memcache.get('census')
+        
     
     ##########################
     ## HELPERS  
@@ -84,13 +85,13 @@ class UpdateLocations():
     def updateCensusPixel(self,censusCheckInPulse,dataset=memcache.get('census')):
     ## updates an already existing pixel's location
     ###################################################
-        for pixel in dataset:
-            if pixel['kid'] == censusCheckInPulse['origin']:
+        for pixel in dataset['pixels']:
+            if pixel['origin'] == censusCheckInPulse['origin']:
                 pixel['xloc'] = censusCheckInPulse['xloc']
                 pixel['yloc'] = censusCheckInPulse['yloc']
                 pixel['zloc'] = censusCheckInPulse['zloc']
                 pixel['loc'] = censusCheckInPulse['loc']
-            memcache.set('census',dataset)
+        memcache.set('census',dataset)
         return dataset
     
 #    ## addCensusPixel()

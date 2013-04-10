@@ -4,7 +4,7 @@
  * Namespace and global systems, base objects,
  * and utility functions for MetaEden.
  * 
- * extend() from JavaScript Patterns, Stoyan Stefanov
+ * namespace() from JavaScript Patterns, Stoyan Stefanov
  * via Addy Osmoni
  * http://addyosmani.com/blog/essential-js-namespacing/
  */
@@ -96,6 +96,30 @@ ME3D.de2ra = function(degree) {
  */
 
 ME3D.Clock = new THREE.Clock();
+
+/*
+ * ME3D.Clock
+ * converts 3D position to screen coords
+ */
+
+ME3D.toScreenXY = function(position, camera, jqdiv) {
+	
+	if(typeof jqdiv == 'undefined') {
+		jqdiv = $('body');
+	}
+	
+	var width = jqdiv.width(), height = jqdiv.height();
+	var widthHalf = width / 2, heightHalf = height / 2;
+	var position = position, camera = camera;
+	
+	var projector = new THREE.Projector();
+	var vector = projector.projectVector( position, camera );
+	
+	vector.x = ( vector.x * widthHalf ) + widthHalf;
+	vector.y = - ( vector.y * heightHalf ) + heightHalf;
+	
+    return { x: vector.x, y: vector.y }; 	
+};
 
 
 ME3D.Ticker = {

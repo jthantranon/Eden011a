@@ -30,7 +30,8 @@ function main() {
 	// INITIALIZE HUD!!! //
 	///////////////////////
 	var CHATBOX = new MEUI.ChatBox();
-	var testDialog1 = new MEUI.TestGlass();
+	//var testDialog1 = new MEUI.TestGlass();
+	var testNewSheet = new MEUI.NewSheet();
 	// var testDialog2 = new MEUI.DialogChat();
 	// var dialog = ['<p>Lorem ipsum dolar sit amet.</p>', '<p>This is the way to the end of the road.</p>', '<p>Join me, and together we can rule the galaxy as father and son!</p>']
 	// 	
@@ -90,12 +91,20 @@ function main() {
 	
 	CITY.scene.add(userAvatar);
 	
+	// NPCs //
+	//////////
+	var meNPC = new ME3D.NPC({ location: new THREE.Vector3(1,.5,1), camera: CITY.camera});
+	CITY.scene.add(meNPC);
+	
+	
+	
  	
  	// PICKING!! //
 	///////////////
 	var PICKER = new ME3D.Picker(CITY.scene, CITY.camera);
 	
 	PICKER.addClick(userAvatar);
+	PICKER.addClick(meNPC);
 		
 		
 	// CONTROLS //	
@@ -122,7 +131,7 @@ function main() {
 		
 	var animLoop = function() {
 		runPhysics();
-		ME3D.LERP.update();		
+		ME3D.LERP.update();	//not working
 	}
 	
 	

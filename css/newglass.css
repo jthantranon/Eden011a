@@ -1,0 +1,122 @@
+.newsheetWrapper {
+	font-family: 'Titillium Web', sans-serif;
+	color:#FFF;
+	position:fixed;
+	top:300px;
+	left:200px;
+	min-width:400px;
+	border-top:rgba(50,255,255,.4) 1px solid;
+	border-bottom:rgba(0,150,200,.6) 1px solid;
+	border-radius:4px;
+	/*background: -webkit-linear-gradient(-45deg, rgba(80,199,235,.35) 0%,rgba(0,0,0,0.35) 100%);*/
+	/*background: -webkit-linear-gradient(-45deg, rgba(255,255,255,.15) 0%,rgba(255,255,255,.35) 100%);*/
+	background: -webkit-linear-gradient(-45deg, rgba(0,0,0,.75) 0%,rgba(0,0,0,0.55) 100%);
+	box-shadow:0 0 5px rgba(0,0,0,.75);
+	-webkit-user-select: none;
+}
+
+.newsheetWrapper .sheetBackground {
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:100%;
+	height:100%;
+	background-image:url(../img/newglass/corner_reflection.png);
+	opacity:.6;
+	background-position: right top;
+	background-repeat:no-repeat;
+}
+
+.newsheetWrapper .sheetSideBackground {
+	position:absolute;
+	top:0px;
+	left:2px;
+	width:100%;
+	height:100%;
+	background-image:url(../img/newglass/glassSideBG.png);
+	background-position: left top;
+	background-repeat:repeat-y;
+	opacity:.6;
+}
+
+.newsheetWrapper .sheetReflection {
+	position:absolute;
+	top:0px;
+	width:100%;
+	height:100%;
+	background-image:url(../img/newglass/top_reflection.png);
+	opacity:.45;
+	background-repeat:no-repeat;
+	background-size:cover;
+}
+
+.newsheetWrapper .sheetContent {
+	margin:6px 6px 6px 10px;
+	padding:5px 10px;
+	background-color:rgba(255,255,255,.1);
+	border-radius:2px;
+	border:rgba(0,255,255,.15) 1px solid;
+	position:relative;
+	top:0px;
+	bottom:0;
+	left:0;
+	right:0;
+	min-width:362px;
+	
+}
+
+.newsheetWrapper .sheetHeader {
+	height:42px;
+	background-image:url(../img/newglass/headerBG.png), url(../img/newglass/headerReflection.png);
+	margin-top:5px;
+	margin-bottom:5px;
+	font-size:30px;
+	line-height:42px;
+	text-transform:uppercase;
+	padding-left:18px;
+	background-repeat:repeat, no-repeat;
+}
+
+.newsheetWrapper .sheetAction {
+	position:absolute;
+	right:5px;
+	height:42px;
+	width:42px;
+	margin-top:5px;
+	background-image:url(../img/newglass/button.png);
+	background-position:center;
+	background-size:75%;
+	background-repeat:no-repeat;
+}
+
+.newsheetWrapper .sheetAction:hover {
+	background-image:url(../img/newglass/buttonHover.png);
+}
+
+.newsheetWrapper .sheetTab {
+	position:absolute;
+	right:-22px;
+	height:42px;
+	width:17px;
+	background-image:url(../img/newglass/rightTab.png);
+	margin-top:5px;
+	font-size:22px;
+	line-height:42px;
+	text-transform:uppercase;
+	padding-left:5px;
+	/*z-index:-1;*/
+}
+
+.newsheetWrapper .sheetRollup {
+	position:absolute;
+	width:152px;
+	height:11px;
+	right:0px;
+	background-image:url(../img/newglass/rollupButton.png);
+	margin-top:1px;
+	/*z-index:-1;*/
+}
+
+.newsheetWrapper .sheetRollup:hover {
+	background-image:url(../img/newglass/rollupButtonHover.png);
+}

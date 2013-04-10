@@ -56,6 +56,7 @@ class MainPage(webapp2.RequestHandler):
         # snippets
         sheetTPL = jinja_environment.get_template('sheet.html')
         glassTPL = jinja_environment.get_template('glass.html')
+        newglassTPL = jinja_environment.get_template('newglass.html')
         dialogTPL = jinja_environment.get_template('dialog.html')
         dialogchatTPL = jinja_environment.get_template('dialogchat.html')
         dialogpagedTPL = jinja_environment.get_template('dialogpaged.html')
@@ -118,6 +119,7 @@ class MainPage(webapp2.RequestHandler):
         ## render snippets
         self.response.out.write(sheetTPL.render(template_values))
         self.response.out.write(glassTPL.render(template_values))
+        self.response.out.write(newglassTPL.render(template_values))
         self.response.out.write(dialogTPL.render(template_values))
         self.response.out.write(dialogchatTPL.render(template_values))
         self.response.out.write(dialogpagedTPL.render(template_values))

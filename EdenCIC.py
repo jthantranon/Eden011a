@@ -92,7 +92,8 @@ class WishingWell(webapp2.RequestHandler):
             grant = 'wish not granted'
         #cpix.grant = wish#['name']
         #cpix.anothertest = 'anothertest'
-        self.response.out.write(jsonify(grant))
+        #self.response.out.write(jsonify(grant))
+        self.response.out.write(json.dumps(grant))
 
 
 class Test(webapp2.RequestHandler):

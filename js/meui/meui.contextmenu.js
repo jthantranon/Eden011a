@@ -77,7 +77,7 @@ MEUI.ContextMenu = function (props) {
 							
 		// position fix if draggble/resize is added
 		$ctx.css({'position':'fixed'})	
-		$('canvas').on('click', function() {
+		$('canvas').on('mouseup', function() {
 			$ctx.fadeOut();
 		});	
 		
