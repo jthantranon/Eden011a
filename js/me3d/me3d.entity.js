@@ -25,6 +25,21 @@ ME3D.Entity = function() {
 	
 	this.init = function(){ ME3D.Ticker.add(this); };
 	
+	this.toScreenXY = function(position, camera, jqdiv) {
+		// converts 3D position to screen coords	
+		var width = jqdiv.width(), height = jqdiv.height();
+		var widthHalf = width / 2, heightHalf = height / 2;
+		var position = position, camera = camera;
+		
+		var projector = new THREE.Projector();
+		var vector = projector.projectVector( position, camera );
+		
+		vector.x = ( vector.x * widthHalf ) + widthHalf;
+		vector.y = - ( vector.y * heightHalf ) + heightHalf;
+		
+	    return { x: vector.x, y: vector.y }; 	
+	};
+	
 };
 
 /*

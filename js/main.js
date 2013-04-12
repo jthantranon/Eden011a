@@ -137,7 +137,7 @@ function main() {
 	
 	RENDERER.queueRender(renderLoop,'');
 	RENDERER.queueAnimation(animLoop,'');
-	POPULATION = new ME3D.Population(CITY.scene,PICKER,userAvatar);
+	POPULATION = new ME3D.Population(CITY.scene,PICKER,userAvatar,CITY.camera);
 	
 	
 }

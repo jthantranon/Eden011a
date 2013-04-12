@@ -17,6 +17,7 @@ ME3D.NPC = function (props) {
 	ME3D.Entity.call(this);
 	this.init();
 	this.presence = new THREE.Object3D();
+	this.menu = false;
 	
 	// DEFAULT PROPERTIES //
 	////////////////////////
@@ -63,6 +64,7 @@ ME3D.NPC = function (props) {
 	  	self.add(sprite);
 	}
 	
+		
 			
 	// BODY/PRESENCE MESH //
 	////////////////////////
@@ -100,18 +102,35 @@ ME3D.NPC = function (props) {
 		this.presence.rotation.y += ME3D.de2ra(.5);
 		//var loc = ME3D.toScreenXY(this.position.clone(), this.camera, $('body'));
 		
+		if(self.menu != false) {
+			// alert('wtf');
+			var locale = new THREE.Vector3();
+			locale.copy(self.position);
+			var coords = this.toScreenXY(locale, self.camera, $('body'));
+			this.menu.updateLocation(coords);
+		}
+		
 								
 	} //// end tick ////
 	
 	this.doClick = function(mouse) {
 		//alert('STAHPIT!!! ' + mouse.x + ',' + mouse.y);
+		var action1 = function(){ alert('Menu Alert!'); };
+		var action2 = function(){ new MEUI.DialogPlayer(
+									{ messages: ['NPC\'s built this city...',
+						  						 'on Rock & Roll!']}); };
+						  						 
 		var self = this.parent;
 		if(!self.menu) {
-			var props = { xpos: mouse.x, ypos: mouse.y-30};
+			var props = { xpos: mouse.x, ypos: mouse.y-30,
+						  actions: [
+						  	['alert', action1],
+						  	['talk', action2]
+						  ]};
 			self.menu = new MEUI.ContextMenu(props);
 		} else {
 			self.menu.updatePos(mouse.x-240,mouse.y-200);
-			self.menu.fadeIn();
+			self.menu.fadeIn('fast');
 		}
 		
 	};

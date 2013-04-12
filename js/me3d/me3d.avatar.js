@@ -137,20 +137,7 @@ ME3D.Avatar = function (props) {
 	
 	// PRIVATE METHODS //
 	/////////////////////
-	this.toScreenXY = function(position, camera, jqdiv) {
-		// converts 3D position to screen coords	
-		var width = jqdiv.width(), height = jqdiv.height();
-		var widthHalf = width / 2, heightHalf = height / 2;
-		var position = position, camera = camera;
-		
-		var projector = new THREE.Projector();
-		var vector = projector.projectVector( position, camera );
-		
-		vector.x = ( vector.x * widthHalf ) + widthHalf;
-		vector.y = - ( vector.y * heightHalf ) + heightHalf;
-		
-	    return { x: vector.x, y: vector.y }; 	
-	};
+	
 	
 	this.delayBindings = function() {
 		var self = this;
@@ -188,18 +175,35 @@ ME3D.Avatar = function (props) {
 				this.globeGlow = false;
 			}
 		}
+		
+		if(self.menu != false) {
+			// alert('wtf');
+			var locale = new THREE.Vector3();
+			locale.copy(self.position);
+			var coords = this.toScreenXY(locale, self.camera, $('body'));
+			this.menu.updateLocation(coords);
+		}
 						
 	} //// end tick ////
 	
 	this.doClick = function(mouse) {
 		//alert('STAHPIT!!! ' + mouse.x + ',' + mouse.y);
+		var action1 = function(){ alert('Menu Alert!'); };
+		var action2 = function(){ new MEUI.DialogPlayer(
+									{ messages: ['We built this city...',
+						  						 'on Rock & Roll!']}); };
+						  						 
 		var self = this.parent;
 		if(!self.menu) {
-			var props = { xpos: mouse.x, ypos: mouse.y-30};
+			var props = { xpos: mouse.x, ypos: mouse.y-30,
+						  actions: [
+						  	['alert', action1],
+						  	['talk', action2]
+						  ]};
 			self.menu = new MEUI.ContextMenu(props);
 		} else {
 			self.menu.updatePos(mouse.x-240,mouse.y-200);
-			self.menu.fadeIn();
+			self.menu.fadeIn('fast');
 		}
 		
 	};

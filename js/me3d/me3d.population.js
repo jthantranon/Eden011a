@@ -6,7 +6,7 @@
 
 // TODO: default parameters and arguments
 
-ME3D.Population = function (scene,picker,userAvatar) {
+ME3D.Population = function (scene,picker,userAvatar,camera) {
 	
 	var self = this;
 	
@@ -17,6 +17,7 @@ ME3D.Population = function (scene,picker,userAvatar) {
 	this.picker = picker;
 	this.updateRate = 5001; //default 500
 	this.userAvatar = userAvatar;
+	this.camera = camera;
 	
 	this.getData = function() {
 		
@@ -167,7 +168,7 @@ ME3D.Population.prototype = {
 				// alert('not Present');
 				// make a new avatar
 				var updatedLoc = new THREE.Vector3(data[i].xloc,data[i].yloc,data[i].zloc);
-				var newAvatar = new ME3D.Avatar({name:searchTerm, location:updatedLoc});
+				var newAvatar = new ME3D.Avatar({name:searchTerm, location:updatedLoc, camera:self.camera});
 				//console.log(self.picker);
 				self.picker.addClick(newAvatar);
 				self.scene.add(newAvatar);

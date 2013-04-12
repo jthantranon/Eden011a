@@ -4,6 +4,9 @@
 	position:fixed;
 	top:20px;
 	left:20px;
+	-webkit-user-select: none;
+	user-select:none;
+	cursor:hand;
 }
 
 .contextMenuWrapper .contextMenuHeader {
@@ -26,6 +29,9 @@
 	padding:10px;
 	color:#FFF;
 	font-family: 'Titillium Web', Arial, Helvetica, sans-serif;
+	-webkit-user-select: none;
+	user-select:none;
+	cursor:pointer;
 }
 
 .contextMenuWrapper .contextMenuFooter {

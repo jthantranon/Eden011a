@@ -30,6 +30,7 @@ $LAB
 	.script( "js/meui/meui.dialog.js")
 	.script( "js/meui/meui.dialogchat.js")
 	.script( "js/meui/meui.dialogpaged.js")
+	.script( "js/meui/meui.dialogplayer.js")
 	.script( "js/meui/meui.newsheet.js")
 	.script( "js/meui/meui.glass.js")
 	.script( "js/meui/meui.slideglass.js")
