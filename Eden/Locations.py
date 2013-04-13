@@ -54,6 +54,7 @@ class UpdateLocations(webapp2.RequestHandler):
         for pixel in pixels:
             census.append(pixel.to_dict())
         memcache.set('census',census)
+        
         return census
     
     def getCachedCensus(self):
