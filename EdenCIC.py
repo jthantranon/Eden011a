@@ -48,8 +48,9 @@ class EdenInit(webapp2.RequestHandler):
         if source:
             pop = []
             for pixel in Pixel.query().fetch():
-                pop.append(pixel.to_dict())
+                pop.append(pixel)
             source.censusData = pop
+            source.put()
         else:
             source = Crystal(id='1', name='Eden Source Crystal',info='The Tree of Wisdom.',uCount=0,oCount=0, evekey='adam')
             source.put()
