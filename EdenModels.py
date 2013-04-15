@@ -10,6 +10,7 @@ class Pixel(ndb.Expando,Source):
 
 class Crystal(ndb.Expando,Source):
     kind = 'Crystal'
+    censusData = ndb.JsonProperty()
     
 #class Pulse(ndb.Model):
 #    type = ndb.StringProperty()

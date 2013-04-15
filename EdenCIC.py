@@ -2,6 +2,8 @@
 from google.appengine.api import users
 from google.appengine.api import channel
 from google.appengine.ext import ndb
+from google.appengine.api import memcache
+
 import json
 import webapp2
 #import EdenDataOfficer as edo
@@ -48,7 +50,7 @@ class EdenInit(webapp2.RequestHandler):
         if source:
             pop = []
             for pixel in Pixel.query().fetch():
-                pop.append(pixel)
+                pop.append(pixel.to_dict())
             source.censusData = pop
             source.put()
         else:
@@ -106,13 +108,17 @@ class Test(webapp2.RequestHandler):
     def get(self):
 #        theout = loc.UpdateLocations(Pulse().censusCheckIn('Pixel2', 42, 42, 42)).test()
 #        theout2 = loc.UpdateLocations().test()
-        theout3 = loc.UpdateLocations().getStoredCensus()
+#        theout3 = loc.UpdateLocations().getStoredCensus()
         theout4 = loc.UpdateLocations().getCachedCensus()
         theout5 = loc.UpdateLocations().checkForPixel('Pixel2')
 #        theout6 = loc.UpdateLocations().updateCensusPixel(Pulse().censusCheckIn('Pixel1', 42, 42, 42))
 #        theheart = Pulse().chat('Pixel0', 'Pixel0', 'whee')
         
         self.response.out.write(jsonify(theout4))
+        self.response.out.write('<br>')
+        self.response.out.write('<br>')
+        self.response.out.write(jsonify(ndb.Key('Crystal','1').get()))
+#        self.response.out.write(memcache.get('censusDelta'))
 #        self.response.out.write(theout)
 
         
