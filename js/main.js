@@ -99,7 +99,7 @@ function main() {
 					// alert(JSON.stringify(data[1].loc.y));
 					// var avatarProps = { location: new THREE.Vector3(1,2,1), camera: CITY.camera, isMyAvatar: true};
 					data = data[aSessData.cPixel.kid]
-					var avatarProps = { location: new THREE.Vector3(data.loc.x,data.loc.y,data.loc.z), camera: CITY.camera, isMyAvatar: true};
+					var avatarProps = { location: new THREE.Vector3(data.loc.x,0.5,data.loc.z), camera: CITY.camera, isMyAvatar: true};
 					var userAvatar = new ME3D.Avatar(avatarProps);
 					var avatarBounds = userAvatar.getBoundingBox();
 					

@@ -50,7 +50,6 @@ class UpdateLocations(webapp2.RequestHandler):
     ##########################
     ## HELPERS  
     ##########################
-    
     def getStoredCensus(self):
     ## returns pixel data from the server
     ###################################################
@@ -124,7 +123,6 @@ class UpdateLocations(webapp2.RequestHandler):
 #            for pixel in Pixel.query().fetch():
 #                pop.append(pixel.to_dict())
             crystal.censusData = dataset
-            crystal.evekey = 'notadam'
             crystal.censusDelta = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             memcache.set('censusDelta',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             memcache.set('censusDeltaRaw',datetime.now())
