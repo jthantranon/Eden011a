@@ -66,11 +66,13 @@ class UpdateLocations(webapp2.RequestHandler):
             crystal.put()
         pixels = Pixel.query().fetch()
         census = []
+        census2 = {}
         for pixel in pixels:
             census.append(pixel.to_dict())
+            census2[pixel.kid] = pixel.to_dict()
         memcache.set('census',census)
         
-        return census
+        return census2
     
     def getCachedCensus(self):
     # checks to see if there is data in cache or
@@ -80,7 +82,7 @@ class UpdateLocations(webapp2.RequestHandler):
         if census is not None:
             return census 
         else:
-            return self.getStoredCensus() + 'not cache'
+            return self.getStoredCensus()
             #census = getStoredCensus()
             #staleTime = now() + timedelta(minutes=15)
 #            staleTime = 12345

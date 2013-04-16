@@ -23,7 +23,7 @@ from Eden.Heart import Pulse
 
 def jsonify(data):
     thereturn = ''
-    if isinstance(data, str) or isinstance(data, list):
+    if isinstance(data, str) or isinstance(data, list) or isinstance(data, dict):
         return json.dumps(data)
     else:
         try:
@@ -96,19 +96,23 @@ class WishingWell(webapp2.RequestHandler):
                 grant = loc.UpdateLocations(wishargs).test()
             else:
                 grant = 'Need arguments yo!'
+        elif name == 'getCensus':
+            grant = loc.UpdateLocations().getCachedCensus()
+        elif name == 'getStoredCensus':
+            grant = loc.UpdateLocations().getStoredCensus()
         else:
             grant = 'wish not granted'
         #cpix.grant = wish#['name']
         #cpix.anothertest = 'anothertest'
-        #self.response.out.write(jsonify(grant))
-        self.response.out.write(json.dumps(grant))
+        self.response.out.write(jsonify(grant))
+#        self.response.out.write(json.dumps(grant))
 
 
 class Test(webapp2.RequestHandler):
     def get(self):
 #        theout = loc.UpdateLocations(Pulse().censusCheckIn('Pixel2', 42, 42, 42)).test()
 #        theout2 = loc.UpdateLocations().test()
-#        theout3 = loc.UpdateLocations().getStoredCensus()
+        theout3 = loc.UpdateLocations().getStoredCensus()
         theout4 = loc.UpdateLocations().getCachedCensus()
         theout5 = loc.UpdateLocations().checkForPixel('Pixel2')
 #        theout6 = loc.UpdateLocations().updateCensusPixel(Pulse().censusCheckIn('Pixel1', 42, 42, 42))
@@ -118,6 +122,9 @@ class Test(webapp2.RequestHandler):
         self.response.out.write('<br>')
         self.response.out.write('<br>')
         self.response.out.write(jsonify(ndb.Key('Crystal','1').get()))
+        self.response.out.write('<br>')
+        self.response.out.write('<br>')
+        self.response.out.write(jsonify(theout3))
 #        self.response.out.write(memcache.get('censusDelta'))
 #        self.response.out.write(theout)
 
