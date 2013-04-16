@@ -45,7 +45,7 @@ ME3D.Population = function (scene,picker,userAvatar,camera) {
 				console.debug(JSON.stringify(data)); //strting showing an array of objects
 				console.debug(JSON.parse(JSON.stringify(data))); //an array of objects
 				//alert(JSON.stringify(data));
-				self.refresh(data.pixels); //gives error
+				self.refresh(data); //gives error
 				// self.refresh(JSON.parse(JSON.stringify(data))) // Uncaught TypeError: Object [object Array] has no method 'IndexOf'
 			});
 			
@@ -125,7 +125,7 @@ ME3D.Population.prototype = {
 		var self = this;
 		
 		// data = JSON.parse(data);
-		console.log(data.length);
+		//console.log(data.length);
 		console.log(JSON.stringify(data));
 		
 		for(var i=0,j=data.length; i<j; i++){
@@ -133,13 +133,13 @@ ME3D.Population.prototype = {
 			// take an item from the loc list, now check to see
 			// if the origin property is in the census
 			//console.log(JSON.stringify(data[i].origin));
-			var searchTerm = data[i].origin;
-			console.log(JSON.stringify(data[i].origin));
+			var searchTerm = data[i].name;
+			console.log(JSON.stringify(data[i].name));
 			var isPresent = false;
 			
 			// loop through census looking for matching origin
 			for(var k=0,l=self.census.length; k<l && isPresent == false; k++){
-				if (self.census[k].origin == searchTerm) {
+				if (self.census[k].name == searchTerm) {
 					// it exists
 					isPresent = true;
 				};
@@ -148,7 +148,7 @@ ME3D.Population.prototype = {
 			if(isPresent) {
 				//alert('present');
 				// update the location
-				var avatar = self.scene.getChildByName(data[i].origin);
+				var avatar = self.scene.getChildByName(data[i].name);
 				var oldLocation = avatar.location;
 				
 				var location = new THREE.Vector3(data[i].xloc,data[i].yloc,data[i].zloc);
