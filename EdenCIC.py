@@ -48,14 +48,13 @@ class EdenInit(webapp2.RequestHandler):
     def get(self):
         source = ndb.Key('Crystal','1').get()
         if source:
-            pop = []
+            pop = {}
             for pixel in Pixel.query().fetch():
-                pop.append(pixel.to_dict())
+                pop[pixel.kid] = pixel.to_dict()
             source.censusData = pop
-            source.put()
         else:
             source = Crystal(id='1', name='Eden Source Crystal',info='The Tree of Wisdom.',uCount=0,oCount=0, evekey='adam')
-            source.put()
+        source.put()
         self.response.out.write(jsonify(source))
 
 #class PopulationUpdate
@@ -114,7 +113,7 @@ class Test(webapp2.RequestHandler):
 #        theout2 = loc.UpdateLocations().test()
         theout3 = loc.UpdateLocations().getStoredCensus()
         theout4 = loc.UpdateLocations().getCachedCensus()
-        theout5 = loc.UpdateLocations().checkForPixel('Pixel2')
+#        theout5 = loc.UpdateLocations().checkForPixel('Pixel2')
 #        theout6 = loc.UpdateLocations().updateCensusPixel(Pulse().censusCheckIn('Pixel1', 42, 42, 42))
 #        theheart = Pulse().chat('Pixel0', 'Pixel0', 'whee')
         

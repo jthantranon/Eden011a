@@ -83,85 +83,88 @@ function main() {
 	
 	// PLAYER AVATAR //
 	///////////////////
-	MEUI.Wish('aSession','',function(data){
+	MEUI.Wish('aSession','',function(aSessData){
 		// alert(JSON.stringify(data.pulse.content.user.name));
 		// alert(data.);
+		
+		///NEST 1///
+		MEUI.Wish('getStoredCensus','',function(storedData){
+		// Example of how to check for current user's pixel before drawing it.
+			if (typeof storedData[aSessData.cPixel.kid] === 'undefined'){
+				alert('register this pixel with the census, cause it is not at the moment');
+			} else {
+				//NEST 2//
+				MEUI.Wish('getCensus','',function(data){
+				// moved all avatar making stuff in here as we need to look up the avatar's location before drawing it
+					// alert(JSON.stringify(data[1].loc.y));
+					// var avatarProps = { location: new THREE.Vector3(1,2,1), camera: CITY.camera, isMyAvatar: true};
+					data = data[aSessData.cPixel.kid]
+					var avatarProps = { location: new THREE.Vector3(data.loc.x,data.loc.y,data.loc.z), camera: CITY.camera, isMyAvatar: true};
+					var userAvatar = new ME3D.Avatar(avatarProps);
+					var avatarBounds = userAvatar.getBoundingBox();
+					
+					var avatarController = PHYSICS.addMassBody(userAvatar,avatarBounds,3);	
+					
+					CITY.scene.add(userAvatar);
+					// NPCs //
+					//////////
+					var meNPC = new ME3D.NPC({ location: new THREE.Vector3(1,.5,1), camera: CITY.camera});
+					CITY.scene.add(meNPC);
+					
+					
+					
+				 	
+				 	// PICKING!! //
+					///////////////
+					var PICKER = new ME3D.Picker(CITY.scene, CITY.camera);
+					
+					PICKER.addClick(userAvatar);
+					PICKER.addClick(meNPC);
+						
+						
+					// CONTROLS //	
+					//////////////
+					var controlsA = new ME3D.AvatarControls(avatarController,'', userAvatar);
+					
+					// RENDERER //
+					//////////////
+					var renderLoop = function() {
+						var delta = CLOCK.getDelta();
+					    controlsA.update( delta );
+					    CITY.camera.position.x = userAvatar.getChildPosition('cameraTarget').x;
+					    CITY.camera.position.y = userAvatar.getChildPosition('cameraTarget').y;
+					    CITY.camera.position.z = userAvatar.getChildPosition('cameraTarget').z;
+					    
+					    // PICKER.pick();
+					    // PICKER.pickBuilding();
+					    //showAvatarLoc();	  
+					    //myTransitions.fadeOut(delta);
+					    ME3D.Ticker.run();
+					    PICKER.resolve(); 
+					}
+					
+						
+					var animLoop = function() {
+						runPhysics();
+						ME3D.LERP.update();	//not working
+					}
+					
+					
+					RENDERER.queueRender(renderLoop,'');
+					RENDERER.queueAnimation(animLoop,'');
+					POPULATION = new ME3D.Population(CITY.scene,PICKER,userAvatar,CITY.camera);
+					// alert(data.);
+				});
+			} // END NEST 2
+			
+			// alert(JSON.stringify(data['Pixel1'].loc));
+			// alert(JSON.stringify(data['Pixel1'].loc));
+		}); // END NEST 1
+		
 	});
 	
 	
 	
-	MEUI.Wish('getStoredCensus','',function(data){
-	// Example of how to check for current user's pixel before drawing it.
-		if (typeof data['Pixel3'] === 'undefined'){
-			alert('lost');
-		} else {
-			alert(JSON.stringify(data));
-		}
-		
-		// alert(JSON.stringify(data['Pixel1'].loc));
-		// alert(JSON.stringify(data['Pixel1'].loc));
-	});
-	
-	MEUI.Wish('getCensus','',function(data){
-	// moved all avatar making stuff in here as we need to look up the avatar's location before drawing it
-		// alert(JSON.stringify(data[1].loc.y));
-		// var avatarProps = { location: new THREE.Vector3(1,2,1), camera: CITY.camera, isMyAvatar: true};
-		var avatarProps = { location: new THREE.Vector3(data[1].loc.x,data[1].loc.y,data[1].loc.z), camera: CITY.camera, isMyAvatar: true};
-		var userAvatar = new ME3D.Avatar(avatarProps);
-		var avatarBounds = userAvatar.getBoundingBox();
-		
-		var avatarController = PHYSICS.addMassBody(userAvatar,avatarBounds,3);	
-		
-		CITY.scene.add(userAvatar);
-		// NPCs //
-		//////////
-		var meNPC = new ME3D.NPC({ location: new THREE.Vector3(1,.5,1), camera: CITY.camera});
-		CITY.scene.add(meNPC);
-		
-		
-		
-	 	
-	 	// PICKING!! //
-		///////////////
-		var PICKER = new ME3D.Picker(CITY.scene, CITY.camera);
-		
-		PICKER.addClick(userAvatar);
-		PICKER.addClick(meNPC);
-			
-			
-		// CONTROLS //	
-		//////////////
-		var controlsA = new ME3D.AvatarControls(avatarController,'', userAvatar);
-		
-		// RENDERER //
-		//////////////
-		var renderLoop = function() {
-			var delta = CLOCK.getDelta();
-		    controlsA.update( delta );
-		    CITY.camera.position.x = userAvatar.getChildPosition('cameraTarget').x;
-		    CITY.camera.position.y = userAvatar.getChildPosition('cameraTarget').y;
-		    CITY.camera.position.z = userAvatar.getChildPosition('cameraTarget').z;
-		    
-		    // PICKER.pick();
-		    // PICKER.pickBuilding();
-		    //showAvatarLoc();	  
-		    //myTransitions.fadeOut(delta);
-		    ME3D.Ticker.run();
-		    PICKER.resolve(); 
-		}
-		
-			
-		var animLoop = function() {
-			runPhysics();
-			ME3D.LERP.update();	//not working
-		}
-		
-		
-		RENDERER.queueRender(renderLoop,'');
-		RENDERER.queueAnimation(animLoop,'');
-		POPULATION = new ME3D.Population(CITY.scene,PICKER,userAvatar,CITY.camera);
-		// alert(data.);
-	});
 	
 	// var avatarProps = { location: new THREE.Vector3(1,2,1), camera: CITY.camera, isMyAvatar: true};
 	// var userAvatar = new ME3D.Avatar(avatarProps);

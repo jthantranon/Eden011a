@@ -56,7 +56,7 @@ class UpdateLocations(webapp2.RequestHandler):
     ###################################################
         crystal = ndb.Key('Crystal','1').get()
         try:
-            censusDelta = crystal.censusDelta
+#            censusDelta = crystal.censusDelta
             memcache.set('censusDelta',crystal.censusDelta)
             memcache.set('censusDeltaRaw',datetime.now())
         except AttributeError:
@@ -64,15 +64,12 @@ class UpdateLocations(webapp2.RequestHandler):
             memcache.set('censusDelta',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             memcache.set('censusDeltaRaw',datetime.now())
             crystal.put()
-        pixels = Pixel.query().fetch()
-        census = []
-        census2 = {}
-        for pixel in pixels:
-            census.append(pixel.to_dict())
-            census2[pixel.kid] = pixel.to_dict()
-        memcache.set('census',census)
+        storedCensus = crystal.censusData
         
-        return census2
+        memcache.set('census',storedCensus)
+        
+#        return storedCensus
+        return crystal.censusData
     
     def getCachedCensus(self):
     # checks to see if there is data in cache or
@@ -103,15 +100,25 @@ class UpdateLocations(webapp2.RequestHandler):
     def updateCensusPixel(self,censusCheckInPulse,dataset=memcache.get('census')):
     ## updates an already existing pixel's location
     ###################################################
-        for pixel in dataset:
-            if pixel['kid'] == censusCheckInPulse['origin']:
-                pixel['xloc'] = censusCheckInPulse['xloc']
-                pixel['yloc'] = censusCheckInPulse['yloc']
-                pixel['zloc'] = censusCheckInPulse['zloc']
-                pixel['loc'] = censusCheckInPulse['loc']
+        try:
+            myKID = censusCheckInPulse['origin']
+        except AttributeError:
+            pass
+        if dataset[myKID]:
+            dataset[myKID]['xloc'] = censusCheckInPulse['xloc']
+            dataset[myKID]['yloc'] = censusCheckInPulse['yloc']
+            dataset[myKID]['zloc'] = censusCheckInPulse['zloc']
+            dataset[myKID]['loc'] = censusCheckInPulse['loc']
+#        for pixel in dataset:
+#            if pixel['kid'] == censusCheckInPulse['origin']:
+#                pixel['xloc'] = censusCheckInPulse['xloc']
+#                pixel['yloc'] = censusCheckInPulse['yloc']
+#                pixel['zloc'] = censusCheckInPulse['zloc']
+#                pixel['loc'] = censusCheckInPulse['loc']
         memcache.set('census',dataset)
         saveDelta = datetime.now() - memcache.get('censusDeltaRaw')
-        if saveDelta > timedelta(minutes=1):
+        if saveDelta > timedelta(seconds=5):
+#        if saveDelta > timedelta(minutes=1):
             crystal = ndb.Key('Crystal','1').get()
 #            pop = []
 #            for pixel in Pixel.query().fetch():
