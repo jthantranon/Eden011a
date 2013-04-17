@@ -15,7 +15,7 @@ ME3D.Population = function (scene,picker,userAvatar,camera) {
 	this.census = [];
 	this.scene = scene;
 	this.picker = picker;
-	this.updateRate = 5001; //default 500
+	this.updateRate = 1000; //default 500
 	this.userAvatar = userAvatar;
 	this.camera = camera;
 	
@@ -124,34 +124,30 @@ ME3D.Population.prototype = {
 	refresh: function(data) {
 		var self = this;
 		
-		// data = JSON.parse(data);
-		//console.log(data.length);
-		console.log(JSON.stringify(data));
-		
-		for(var i=0,j=data.length; i<j; i++){
-			
-			// take an item from the loc list, now check to see
-			// if the origin property is in the census
-			//console.log(JSON.stringify(data[i].origin));
-			var searchTerm = data[i].name;
-			console.log(JSON.stringify(data[i].name));
-			var isPresent = false;
-			
-			// loop through census looking for matching origin
-			for(var k=0,l=self.census.length; k<l && isPresent == false; k++){
-				if (self.census[k].name == searchTerm) {
+		for(var pixel in data){
+            // alert(pixel);
+            // alert(JSON.stringify(data[pixel].loc));
+            // alert(JSON.stringify(data[pixel].loc.x));
+            
+            var searchTerm = data[pixel].name;
+            var isPresent = false;
+            
+            // loop through census looking for matching origin
+			for(var i=0,j=self.census.length; i<j && isPresent == false; i++){
+				if (self.census[i].name == searchTerm) {
 					// it exists
 					isPresent = true;
 				};
 			};
 			
+			
 			if(isPresent) {
 				//alert('present');
 				// update the location
-				var avatar = self.scene.getChildByName(data[i].name);
+				var avatar = self.scene.getChildByName(data[pixel].name);
 				var oldLocation = avatar.location;
 				
-				var location = new THREE.Vector3(data[i].xloc,data[i].yloc,data[i].zloc);
+				var location = new THREE.Vector3(data[pixel].loc.x,data[pixel].loc.y,data[pixel].loc.z);
 				// var heading = data[i].heading;
 				// var velocity = data[i].velocity;
 				
@@ -167,15 +163,78 @@ ME3D.Population.prototype = {
 			} else {
 				// alert('not Present');
 				// make a new avatar
-				var updatedLoc = new THREE.Vector3(data[i].xloc,data[i].yloc,data[i].zloc);
+				var updatedLoc = new THREE.Vector3(data[pixel].loc.x,data[pixel].loc.y,data[pixel].loc.z);
 				var newAvatar = new ME3D.Avatar({name:searchTerm, location:updatedLoc, camera:self.camera});
 				//console.log(self.picker);
 				self.picker.addClick(newAvatar);
 				self.scene.add(newAvatar);
 				
 				// and push the entry to censsdus
-				self.census.push(data[i]);
+				self.census.push(data[pixel]);
 			}
+			
+			
+			
+			
+        }
+		
+		
+// 		
+		// // data = JSON.parse(data);
+		// //console.log(data.length);
+		// //alert(JSON.stringify(data));
+		// alert(JSON.stringify(data.Pixel32.loc));
+		// //alert(data.length);
+// 		
+		// for(pixel in data){
+// 			
+			// // take an item from the loc list, now check to see
+			// // if the origin property is in the census
+// 			
+			// alert(JSON.stringify(pixel.loc));
+			// var searchTerm = data[i].name;
+			// console.log(JSON.stringify(data[i].name));
+			// var isPresent = false;
+// 			
+			// // loop through census looking for matching origin
+			// for(var k=0,l=self.census.length; k<l && isPresent == false; k++){
+				// if (self.census[k].name == searchTerm) {
+					// // it exists
+					// isPresent = true;
+				// };
+			// };
+// 			
+			// if(isPresent) {
+				// //alert('present');
+				// // update the location
+				// var avatar = self.scene.getChildByName(data[i].name);
+				// var oldLocation = avatar.location;
+// 				
+				// var location = new THREE.Vector3(data[i].xloc,data[i].yloc,data[i].zloc);
+				// // var heading = data[i].heading;
+				// // var velocity = data[i].velocity;
+// 				
+				// var predictedX = (avatar.location.x - location.x) + avatar.location.x;
+				// var predictedY = (avatar.location.y - location.y) + avatar.location.y;
+				// var predictedZ = (avatar.location.z - location.z) + avatar.location.z;
+// 				
+// 				
+				// var predicted = { x: predictedX, y: predictedY, z: predictedZ };				
+// 				
+				// avatar.updateLoc(location,predicted);
+// 				
+			// } else {
+				// // alert('not Present');
+				// // make a new avatar
+				// var updatedLoc = new THREE.Vector3(data[i].xloc,data[i].yloc,data[i].zloc);
+				// var newAvatar = new ME3D.Avatar({name:searchTerm, location:updatedLoc, camera:self.camera});
+				// //console.log(self.picker);
+				// self.picker.addClick(newAvatar);
+				// self.scene.add(newAvatar);
+// 				
+				// // and push the entry to censsdus
+				// self.census.push(data[i]);
+			// }
 			
 			
 			// in the future check for missing list and destroy them
@@ -187,7 +246,7 @@ ME3D.Population.prototype = {
 			//var searchIndex = 
 			
 			
-		};
+		// };
 	}
 	
 };
